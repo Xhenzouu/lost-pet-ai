@@ -5,7 +5,7 @@ from pathlib import Path
 
 # Project directories
 BASE_DIR = Path(__file__).resolve().parent
-PKL_DIR = BASE_DIR.parent / "pkl"
+PKL_DIR = BASE_DIR / "pkl"  # correct path
 
 # Load model and encoder
 st.title("🐕🐈 Lost Pet Reunion Predictor for Pila, Laguna v4 🐇🐦🐢")
@@ -18,10 +18,10 @@ Pila has ~57,776 people across 17 barangays — community power! 🐾
 
 # Load artifacts with error handling
 try:
-    model = joblib.load(PKL_DIR / "lost_pet_model.pkl")
+    model = joblib.load(PKL_DIR / "lost_pet_model_v4.pkl")
     le_barangay = joblib.load(PKL_DIR / "le_barangay.pkl")
 except:
-    st.error("Model files not found in 'pkl' folder. Make sure 'lost_pet_model.pkl' and 'le_barangay.pkl' exist.")
+    st.error("Model files not found in 'pkl' folder. Make sure 'lost_pet_model_v4.pkl' and 'le_barangay.pkl' exist.")
     st.stop()
 
 # Barangay list
