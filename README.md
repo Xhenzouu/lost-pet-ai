@@ -1,10 +1,12 @@
-# Lost Pet Reunion Predictor for Pila, Laguna 🐕🐈🐇🐦🐢
+# Lost Pet Reunion AI – Pila, Laguna 🐕🐈🐇🐦🐢
 
 A machine learning project that predicts the likelihood of a lost pet being reunited with its owner in **Pila, Laguna, Philippines**.
 
 This is version 4 (v4) — works for **any pet type** (dogs, cats, rabbits, birds, hamsters, etc.) by removing pet type as a feature and adding feature engineering (`days_missing_bucket`) to improve recall and reduce false negatives.
 
-Now deployed as an interactive **public web app** for easy community use!
+Now deployed as an interactive **public web app** for easy community use!  
+
+**Live Demo:** [https://lost-pet-ai.streamlit.app/](https://lost-pet-ai.streamlit.app/)
 
 ---
 
@@ -61,7 +63,6 @@ Dataset: 500 synthetic samples
 [[114 71]
 [ 53 262]]
 
-
 | Class         | Precision | Recall    | F1-score  |
 | ------------- | --------- | --------- | --------- |
 | Not Found (0) | 0.683     | 0.616     | 0.648     |
@@ -77,7 +78,6 @@ Dataset: 500 synthetic samples
 
 [[185 0]
 [ 0 315]]
-
 
 | Class         | Precision | Recall | F1-score |
 | ------------- | --------- | ------ | -------- |
@@ -98,22 +98,20 @@ Dataset: 500 synthetic samples
 
 ---
 
-## Live Demo
-
-Try it here:  
-**[Lost Pet Reunion Predictor Web App](https://your-app-name.streamlit.app)**  
-*(Replace with your deployed URL once live)*
-
-Anyone in Pila (or nearby) can use it directly on their phone — just enter details and get an instant prediction 🐾
-
----
-
 ## How to Run Locally
 
 1. Clone the repository or download the files.
 2. Install dependencies:
-
 ```bash
 pip install streamlit pandas scikit-learn joblib
-3. Run the app: streamlit run app.py
-4. Enjoy instant predictions for lost pets in Pila, Laguna!
+3. Run the app locally: streamlit run app.py
+4. Open your browser and interact with the live app to get instant predictions for lost pets in Pila, Laguna!
+
+Contributing
+
+- Pull requests welcome for improving features, dataset updates, or UI enhancements.
+- Please do not commit large model files (.pkl) — use .gitignore.
+- Always respect privacy when handling real pet or owner data.
+
+License
+MIT License — feel free to use and adapt for non-commercial community purposes.

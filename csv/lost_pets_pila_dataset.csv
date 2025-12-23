@@ -1,0 +1,501 @@
+pet_type,age_years,days_missing,barangay,near_water,posted_on_fb,found
+Cat (Puspin),4.8,51,Labuin,True,True,1
+Cat (Purebred),6.1,6,San Miguel,True,True,1
+Dog (Aspin),12.8,6,Santa Clara Norte,False,False,1
+Cat (Puspin),5.1,3,Labuin,True,False,1
+Cat (Puspin),3.0,7,Masico,False,False,1
+Cat (Purebred),8.6,51,Santa Clara Sur,False,True,1
+Dog (Aspin),14.1,8,Linga,False,False,1
+Dog (Aspin),10.6,42,Labuin,True,False,0
+Cat (Puspin),8.8,52,Bukal,False,False,0
+Dog (Purebred),1.9,15,Mojon,False,True,1
+Cat (Puspin),9.4,47,Labuin,False,True,1
+Cat (Puspin),14.9,29,Tubuan,False,True,1
+Cat (Puspin),2.5,33,San Miguel,True,True,1
+Cat (Puspin),8.0,52,Bukal,False,True,1
+Cat (Purebred),13.2,30,Pinagbayanan,True,False,1
+Dog (Aspin),11.2,39,San Antonio,False,True,1
+Cat (Purebred),10.6,27,Bagong Pook,False,True,1
+Cat (Purebred),10.7,36,Bukal,False,True,1
+Cat (Purebred),5.7,29,Bulilan Sur,False,True,0
+Cat (Puspin),4.8,38,Pansol,False,True,0
+Dog (Purebred),12.2,57,Linga,False,True,0
+Dog (Aspin),12.2,33,Pinagbayanan,False,True,0
+Dog (Purebred),13.1,37,Labuin,False,False,1
+Cat (Purebred),13.7,27,Santa Clara Norte,True,False,0
+Cat (Purebred),7.9,55,Tubuan,True,True,1
+Dog (Purebred),7.8,33,Bulilan Norte,False,True,1
+Dog (Purebred),12.1,4,San Antonio,True,False,0
+Dog (Purebred),9.9,22,Aplaya,False,True,1
+Cat (Purebred),10.7,2,Santa Clara Sur,True,True,0
+Cat (Purebred),12.0,10,San Antonio,False,False,1
+Dog (Aspin),13.4,5,Mojon,False,True,1
+Dog (Aspin),5.4,59,Pinagbayanan,False,False,0
+Cat (Purebred),5.9,10,Bagong Pook,False,True,1
+Dog (Purebred),1.9,33,Bukal,False,True,1
+Dog (Purebred),8.9,54,Mojon,False,True,0
+Dog (Aspin),1.0,38,Bagong Pook,False,False,0
+Cat (Purebred),7.3,13,San Antonio,True,True,1
+Dog (Aspin),8.4,31,San Antonio,False,True,0
+Dog (Aspin),4.7,47,Bukal,False,False,0
+Cat (Puspin),9.1,36,Labuin,True,True,0
+Cat (Puspin),0.9,45,San Miguel,True,True,1
+Cat (Puspin),1.0,24,Tubuan,False,False,1
+Dog (Purebred),12.4,52,Pinagbayanan,True,True,0
+Cat (Purebred),5.7,56,Santa Clara Sur,True,False,1
+Cat (Purebred),2.3,15,Pinagbayanan,False,False,1
+Cat (Purebred),8.1,29,Santa Clara Norte,False,False,1
+Cat (Purebred),11.7,8,Mojon,False,True,1
+Cat (Puspin),3.6,5,Labuin,False,False,1
+Dog (Purebred),9.5,29,Bulilan Sur,False,True,0
+Dog (Purebred),1.7,47,Aplaya,False,False,1
+Cat (Puspin),1.2,4,Tubuan,True,True,1
+Dog (Purebred),8.2,12,Bukal,False,True,0
+Cat (Puspin),8.3,45,San Antonio,True,True,1
+Cat (Purebred),9.7,2,San Miguel,False,False,0
+Cat (Puspin),11.0,27,Bulilan Norte,False,False,0
+Cat (Purebred),14.6,31,Bulilan Sur,False,True,1
+Cat (Purebred),8.0,51,Santa Clara Sur,True,True,1
+Dog (Aspin),5.2,51,Aplaya,False,False,0
+Cat (Puspin),12.0,36,San Miguel,False,True,1
+Dog (Aspin),4.4,36,Santa Clara Norte,True,True,0
+Cat (Puspin),6.9,26,Masico,True,False,1
+Cat (Puspin),1.6,43,Santa Clara Norte,False,True,1
+Dog (Aspin),0.9,27,Tubuan,True,False,1
+Dog (Aspin),14.5,5,Bulilan Norte,False,True,1
+Cat (Puspin),12.6,20,Pinagbayanan,False,True,1
+Dog (Purebred),10.6,11,Bulilan Sur,True,True,1
+Cat (Purebred),6.4,10,Bulilan Sur,False,False,1
+Dog (Aspin),3.0,40,Pansol,True,True,1
+Cat (Purebred),2.8,38,Concepcion,False,False,1
+Dog (Purebred),4.1,6,Labuin,True,True,1
+Dog (Purebred),8.5,8,San Miguel,True,False,1
+Dog (Purebred),10.9,23,Pansol,False,True,1
+Dog (Aspin),10.1,47,San Antonio,False,True,1
+Dog (Purebred),4.6,26,Bagong Pook,False,False,1
+Dog (Aspin),14.3,46,Labuin,False,True,1
+Dog (Purebred),11.2,43,Bulilan Norte,False,True,1
+Cat (Purebred),8.5,12,Linga,True,False,0
+Cat (Purebred),9.4,26,San Antonio,True,True,0
+Cat (Puspin),6.6,13,San Miguel,False,False,0
+Cat (Purebred),4.1,40,Mojon,False,True,1
+Cat (Puspin),5.7,18,Pansol,False,False,0
+Cat (Purebred),11.5,25,Bagong Pook,True,True,1
+Dog (Aspin),0.7,33,Masico,True,True,1
+Cat (Purebred),2.2,47,Tubuan,False,False,0
+Cat (Puspin),1.2,40,Bukal,False,False,0
+Cat (Puspin),1.1,43,Concepcion,False,True,1
+Dog (Purebred),12.9,12,Bulilan Sur,False,True,1
+Dog (Aspin),10.7,44,Bulilan Sur,False,False,0
+Cat (Purebred),7.4,36,Santa Clara Norte,True,True,0
+Dog (Purebred),1.9,48,Tubuan,False,False,1
+Cat (Purebred),7.6,4,Masico,True,False,1
+Cat (Purebred),7.4,5,Bukal,True,True,1
+Dog (Purebred),3.0,56,Tubuan,False,True,1
+Dog (Purebred),6.8,37,Mojon,False,False,1
+Dog (Purebred),6.3,8,Bukal,False,True,1
+Dog (Purebred),9.4,42,Tubuan,True,True,0
+Dog (Purebred),9.7,49,Bukal,True,False,0
+Cat (Purebred),1.2,28,Bukal,True,True,1
+Dog (Purebred),5.9,31,Concepcion,True,False,0
+Dog (Aspin),9.6,58,San Antonio,False,True,0
+Cat (Puspin),7.8,9,Santa Clara Norte,True,True,1
+Dog (Purebred),12.9,54,Masico,False,True,1
+Dog (Purebred),10.1,51,Bulilan Norte,True,True,1
+Cat (Purebred),2.9,29,San Miguel,True,True,0
+Dog (Purebred),1.5,14,Bulilan Sur,True,True,1
+Dog (Purebred),9.8,40,Bagong Pook,False,False,1
+Dog (Purebred),0.9,41,Pansol,False,True,1
+Cat (Purebred),9.0,22,Masico,False,True,1
+Dog (Purebred),14.1,11,Bukal,False,True,0
+Cat (Puspin),8.8,23,Masico,False,True,1
+Cat (Purebred),6.1,1,Bukal,True,True,0
+Cat (Puspin),9.8,46,Bagong Pook,True,True,1
+Cat (Purebred),7.1,37,Pinagbayanan,False,True,0
+Dog (Purebred),8.4,21,Mojon,False,True,0
+Cat (Puspin),14.2,26,Masico,True,True,1
+Cat (Purebred),6.1,46,Santa Clara Norte,False,False,1
+Dog (Aspin),14.4,36,Linga,False,True,1
+Dog (Purebred),13.6,54,Bulilan Sur,True,True,1
+Cat (Purebred),3.3,23,Pansol,False,False,1
+Dog (Aspin),1.5,57,Bagong Pook,False,True,1
+Cat (Purebred),2.0,1,Santa Clara Norte,False,False,1
+Dog (Aspin),0.8,54,Concepcion,True,True,1
+Dog (Purebred),1.9,55,Linga,True,True,1
+Cat (Puspin),10.4,51,Bulilan Sur,False,True,1
+Dog (Aspin),1.5,40,Santa Clara Sur,False,True,1
+Cat (Purebred),5.1,15,Concepcion,False,False,0
+Dog (Purebred),12.8,21,Bulilan Sur,False,True,1
+Dog (Aspin),0.8,47,Santa Clara Sur,True,False,0
+Cat (Purebred),12.3,9,San Antonio,False,True,1
+Cat (Purebred),4.6,53,Bulilan Sur,True,True,1
+Cat (Purebred),2.2,9,San Antonio,False,True,1
+Dog (Aspin),10.6,10,Tubuan,False,True,1
+Dog (Aspin),9.6,52,Linga,True,True,1
+Dog (Aspin),13.2,57,San Antonio,False,False,0
+Cat (Puspin),11.2,53,Bukal,True,False,0
+Dog (Aspin),12.2,26,Linga,True,True,1
+Dog (Aspin),4.6,41,Bagong Pook,True,False,0
+Dog (Aspin),3.1,35,Linga,True,False,0
+Cat (Puspin),11.4,52,San Antonio,False,False,0
+Dog (Aspin),12.2,25,San Antonio,False,True,1
+Cat (Purebred),14.9,26,Aplaya,True,False,0
+Dog (Aspin),6.5,11,Concepcion,False,True,1
+Cat (Purebred),5.9,38,Santa Clara Sur,True,False,1
+Cat (Purebred),11.8,2,Linga,False,True,1
+Cat (Purebred),5.4,7,Aplaya,False,True,0
+Cat (Puspin),14.0,18,Santa Clara Sur,False,False,1
+Cat (Puspin),12.9,27,Masico,True,True,1
+Cat (Puspin),6.7,34,San Antonio,False,False,0
+Dog (Aspin),11.4,27,Pansol,False,False,1
+Cat (Purebred),11.4,17,San Antonio,False,False,1
+Cat (Puspin),2.0,43,Mojon,True,True,1
+Cat (Puspin),13.6,59,Bulilan Norte,True,False,0
+Dog (Aspin),7.8,44,Concepcion,False,True,1
+Cat (Puspin),12.5,59,Labuin,False,True,1
+Dog (Aspin),5.1,51,Bulilan Sur,True,False,0
+Dog (Purebred),13.5,54,Pansol,True,True,1
+Cat (Puspin),6.1,24,San Antonio,False,True,1
+Dog (Purebred),0.7,25,Mojon,True,False,0
+Dog (Aspin),13.6,7,Mojon,False,True,1
+Cat (Purebred),1.8,52,Pansol,False,True,0
+Cat (Puspin),5.1,6,Labuin,True,False,1
+Dog (Aspin),14.3,53,Bulilan Norte,False,True,0
+Cat (Purebred),14.3,24,Bagong Pook,True,False,1
+Cat (Purebred),8.8,33,San Miguel,True,False,0
+Dog (Purebred),9.7,49,San Antonio,False,False,0
+Dog (Aspin),7.0,29,Pinagbayanan,False,False,0
+Cat (Purebred),4.8,43,Labuin,False,True,1
+Cat (Puspin),5.3,22,Bagong Pook,False,True,1
+Cat (Puspin),10.3,26,San Antonio,True,False,0
+Dog (Purebred),11.4,28,San Miguel,True,False,0
+Cat (Purebred),12.0,50,Tubuan,True,True,0
+Dog (Aspin),11.9,21,Masico,True,True,1
+Cat (Puspin),1.8,49,Tubuan,True,True,1
+Cat (Purebred),7.7,7,Linga,True,True,0
+Cat (Purebred),1.3,17,Bagong Pook,True,False,0
+Dog (Purebred),8.5,20,San Antonio,True,True,1
+Cat (Puspin),6.9,41,Bukal,False,False,0
+Cat (Puspin),13.4,49,Santa Clara Sur,False,False,0
+Dog (Aspin),5.6,20,Concepcion,True,True,0
+Cat (Puspin),2.2,54,Labuin,False,False,0
+Dog (Aspin),2.6,22,Mojon,False,True,1
+Cat (Puspin),11.5,28,Masico,True,True,0
+Dog (Purebred),9.5,40,Bagong Pook,False,False,1
+Cat (Puspin),2.0,49,Santa Clara Norte,False,False,0
+Dog (Aspin),1.7,7,Bulilan Sur,False,False,0
+Dog (Aspin),10.7,1,Bulilan Norte,True,True,1
+Dog (Purebred),1.6,32,Bulilan Norte,False,True,1
+Cat (Puspin),12.4,13,Bulilan Norte,True,False,0
+Cat (Puspin),10.7,30,Tubuan,False,True,1
+Dog (Purebred),1.7,23,Pinagbayanan,False,True,1
+Cat (Puspin),1.7,51,Tubuan,False,True,1
+Cat (Puspin),14.8,59,Mojon,False,False,0
+Dog (Aspin),5.9,56,Aplaya,False,True,1
+Cat (Puspin),5.9,19,San Miguel,True,False,1
+Cat (Puspin),12.3,32,Santa Clara Norte,True,False,0
+Dog (Purebred),14.2,30,Pinagbayanan,False,True,1
+Dog (Purebred),14.8,29,Bulilan Norte,True,True,0
+Cat (Purebred),11.4,49,Bukal,True,True,0
+Dog (Aspin),6.0,45,Pinagbayanan,True,False,0
+Cat (Puspin),1.7,29,Labuin,True,True,0
+Cat (Puspin),11.8,30,Pansol,False,True,1
+Cat (Purebred),8.6,16,Aplaya,False,True,1
+Cat (Puspin),6.7,40,Concepcion,False,False,0
+Dog (Aspin),13.6,19,Santa Clara Norte,False,True,0
+Cat (Purebred),2.1,18,Santa Clara Norte,False,False,0
+Dog (Aspin),7.6,1,Pansol,True,False,1
+Cat (Purebred),0.7,14,Bagong Pook,False,True,0
+Cat (Purebred),7.3,51,San Miguel,True,False,1
+Dog (Purebred),1.3,47,Bagong Pook,False,True,1
+Dog (Aspin),2.2,50,Bulilan Norte,False,False,0
+Cat (Puspin),2.2,2,Tubuan,True,False,1
+Cat (Puspin),9.9,54,Bukal,False,False,0
+Dog (Aspin),11.3,28,San Antonio,False,True,1
+Cat (Puspin),9.0,49,Masico,False,True,0
+Cat (Puspin),14.5,50,Labuin,True,True,1
+Dog (Aspin),5.9,30,Santa Clara Norte,False,True,1
+Cat (Purebred),4.6,38,Pansol,False,True,1
+Dog (Aspin),13.1,51,Bagong Pook,True,True,1
+Cat (Purebred),3.7,4,Santa Clara Norte,True,True,0
+Cat (Puspin),14.5,1,San Miguel,False,True,1
+Cat (Puspin),0.7,8,Pansol,True,False,0
+Cat (Puspin),14.6,29,Bukal,False,True,1
+Dog (Purebred),1.1,55,Tubuan,False,True,1
+Cat (Purebred),13.4,39,Pinagbayanan,False,True,0
+Dog (Purebred),8.2,3,Santa Clara Norte,True,True,1
+Dog (Purebred),14.9,32,Santa Clara Sur,False,False,0
+Dog (Aspin),1.6,10,Bulilan Sur,True,True,1
+Dog (Purebred),8.5,10,Concepcion,True,False,0
+Dog (Aspin),14.6,19,Bulilan Sur,False,False,0
+Dog (Aspin),8.1,46,Bukal,True,False,0
+Dog (Purebred),9.6,34,Aplaya,True,False,0
+Cat (Purebred),10.6,33,Concepcion,False,False,0
+Cat (Purebred),7.1,23,Santa Clara Norte,True,False,0
+Cat (Purebred),9.6,55,Bagong Pook,True,False,0
+Cat (Purebred),9.0,28,Bukal,False,True,0
+Cat (Purebred),13.6,32,Tubuan,False,False,0
+Dog (Purebred),1.2,50,Pinagbayanan,False,True,0
+Dog (Purebred),4.6,7,Santa Clara Norte,True,False,1
+Cat (Puspin),14.3,29,Pinagbayanan,False,True,0
+Cat (Purebred),13.4,8,Santa Clara Sur,True,True,1
+Dog (Purebred),7.1,1,Linga,True,True,1
+Cat (Puspin),9.5,57,San Miguel,False,True,1
+Cat (Purebred),4.5,55,Tubuan,True,True,1
+Dog (Aspin),3.2,3,Linga,True,True,1
+Cat (Puspin),7.2,24,Santa Clara Norte,False,True,1
+Dog (Purebred),5.6,23,San Miguel,False,True,1
+Dog (Aspin),9.0,59,Labuin,False,False,0
+Dog (Aspin),1.6,8,Bukal,True,True,0
+Dog (Aspin),14.6,54,Pinagbayanan,True,True,1
+Cat (Puspin),14.8,57,Bukal,True,False,0
+Dog (Purebred),10.6,47,San Miguel,True,True,0
+Dog (Aspin),8.3,37,Santa Clara Norte,False,True,1
+Cat (Purebred),5.0,3,San Miguel,False,False,0
+Dog (Aspin),12.3,51,Labuin,False,False,0
+Dog (Aspin),10.4,33,Tubuan,False,True,1
+Cat (Puspin),2.9,28,Pinagbayanan,False,True,1
+Cat (Puspin),13.7,47,Bulilan Norte,False,False,0
+Dog (Purebred),12.4,8,Masico,True,False,0
+Cat (Purebred),14.3,34,Concepcion,False,True,1
+Cat (Puspin),11.0,35,Santa Clara Sur,False,False,0
+Dog (Aspin),9.4,32,Bagong Pook,True,True,1
+Dog (Purebred),6.6,24,Linga,True,True,1
+Dog (Aspin),14.0,14,Pansol,False,True,1
+Dog (Aspin),13.1,32,San Antonio,True,False,0
+Cat (Puspin),1.2,56,Tubuan,True,True,1
+Dog (Purebred),0.9,46,Linga,False,False,1
+Cat (Purebred),6.0,43,San Miguel,False,True,1
+Cat (Purebred),12.3,16,Santa Clara Norte,False,True,1
+Cat (Puspin),14.8,4,Concepcion,False,True,1
+Cat (Puspin),2.7,52,Pansol,True,False,0
+Dog (Purebred),9.1,37,San Antonio,False,True,1
+Cat (Purebred),6.0,54,Aplaya,True,True,0
+Cat (Purebred),14.6,21,Concepcion,False,False,0
+Cat (Purebred),12.7,14,Masico,False,True,1
+Dog (Aspin),12.7,31,Linga,True,False,0
+Cat (Purebred),7.3,55,Pansol,True,True,1
+Dog (Aspin),6.5,48,Masico,True,False,0
+Dog (Purebred),4.5,18,Tubuan,True,True,1
+Dog (Aspin),1.3,7,Pinagbayanan,True,False,1
+Dog (Purebred),13.0,10,San Miguel,False,True,1
+Cat (Purebred),12.3,7,Santa Clara Norte,False,True,0
+Cat (Purebred),15.0,33,Santa Clara Sur,True,True,1
+Dog (Purebred),15.0,23,Aplaya,True,True,1
+Cat (Puspin),8.6,21,Mojon,True,True,1
+Dog (Purebred),11.7,19,Linga,False,False,1
+Cat (Puspin),14.2,48,Aplaya,True,True,1
+Dog (Aspin),12.8,19,Bagong Pook,False,False,1
+Dog (Aspin),4.1,36,Aplaya,False,False,0
+Dog (Aspin),7.0,29,Aplaya,False,False,1
+Cat (Purebred),2.4,18,Masico,False,True,1
+Dog (Aspin),14.3,2,San Antonio,True,True,1
+Cat (Puspin),9.3,1,Aplaya,False,False,1
+Dog (Aspin),3.8,47,San Antonio,True,False,0
+Dog (Purebred),10.2,5,Labuin,True,True,1
+Dog (Purebred),9.5,20,Bagong Pook,False,True,0
+Cat (Purebred),5.7,11,Concepcion,False,True,0
+Dog (Purebred),2.1,42,Labuin,False,False,1
+Cat (Puspin),10.2,2,San Miguel,True,True,1
+Dog (Aspin),8.0,3,Santa Clara Norte,True,True,1
+Cat (Purebred),11.7,23,Bagong Pook,False,False,1
+Dog (Aspin),8.0,55,Mojon,True,True,1
+Dog (Aspin),12.9,12,Pinagbayanan,False,True,1
+Cat (Puspin),8.5,20,Tubuan,False,False,1
+Dog (Purebred),8.6,5,Linga,False,False,1
+Dog (Purebred),13.2,37,Pansol,True,True,0
+Dog (Aspin),6.4,38,Bukal,False,True,1
+Cat (Purebred),2.4,30,Concepcion,True,True,1
+Dog (Purebred),0.9,9,Masico,False,True,1
+Cat (Purebred),11.4,34,Concepcion,False,False,1
+Dog (Purebred),9.5,53,Masico,False,True,1
+Cat (Purebred),10.7,44,Labuin,True,True,1
+Cat (Puspin),3.6,35,Masico,False,True,1
+Cat (Purebred),2.5,52,Pinagbayanan,False,True,1
+Cat (Puspin),0.7,58,Linga,True,True,0
+Cat (Puspin),5.6,22,Linga,True,False,1
+Cat (Purebred),9.1,44,Santa Clara Norte,False,True,1
+Cat (Puspin),6.2,24,Labuin,False,False,0
+Dog (Aspin),6.8,17,Pansol,False,False,0
+Cat (Puspin),13.6,10,Santa Clara Sur,True,True,1
+Dog (Purebred),5.5,30,Bulilan Norte,True,True,0
+Cat (Purebred),8.0,56,Concepcion,False,True,1
+Dog (Aspin),11.9,59,Bukal,True,True,1
+Cat (Purebred),6.2,46,Masico,False,True,0
+Dog (Purebred),9.5,23,Mojon,False,True,1
+Dog (Purebred),13.0,32,San Miguel,False,True,0
+Dog (Purebred),14.3,17,Pansol,False,False,0
+Cat (Puspin),2.6,50,Pinagbayanan,False,True,1
+Cat (Puspin),13.9,51,Pinagbayanan,True,False,0
+Cat (Purebred),7.6,17,San Antonio,False,True,1
+Cat (Purebred),4.2,14,San Antonio,False,False,0
+Dog (Aspin),7.2,9,San Miguel,False,True,0
+Dog (Aspin),14.7,40,Bulilan Norte,True,True,1
+Cat (Purebred),7.6,2,San Antonio,False,False,1
+Cat (Puspin),5.3,45,Linga,True,True,1
+Dog (Purebred),9.7,25,Pinagbayanan,False,True,0
+Cat (Purebred),4.0,39,Concepcion,False,False,1
+Dog (Aspin),1.6,9,Bulilan Sur,False,True,1
+Cat (Puspin),2.4,54,Masico,True,True,1
+Cat (Purebred),2.4,22,Bukal,False,False,1
+Cat (Purebred),2.7,43,Mojon,False,False,1
+Cat (Puspin),2.5,46,Bukal,True,False,0
+Cat (Purebred),9.8,4,Santa Clara Norte,True,True,0
+Cat (Puspin),3.1,26,Aplaya,True,False,0
+Dog (Purebred),5.5,58,Labuin,True,True,1
+Cat (Puspin),13.5,29,Pinagbayanan,False,False,0
+Cat (Puspin),7.4,45,Tubuan,False,False,0
+Cat (Puspin),10.2,34,Bulilan Sur,False,False,0
+Cat (Purebred),3.0,23,Bulilan Norte,True,False,1
+Cat (Purebred),3.3,37,Pinagbayanan,True,True,0
+Cat (Puspin),1.1,11,Tubuan,False,False,0
+Cat (Purebred),2.9,6,Masico,True,False,0
+Dog (Aspin),4.5,18,Bulilan Norte,False,True,1
+Dog (Aspin),3.1,21,Bagong Pook,False,False,1
+Cat (Purebred),1.8,42,Bulilan Norte,False,True,1
+Cat (Purebred),2.2,36,Bagong Pook,False,False,1
+Cat (Puspin),7.2,41,Santa Clara Norte,True,False,0
+Dog (Purebred),3.5,38,Bagong Pook,True,False,1
+Cat (Purebred),5.8,34,Bulilan Norte,True,True,1
+Dog (Aspin),7.8,17,Concepcion,False,True,1
+Cat (Puspin),10.5,37,Labuin,True,True,1
+Cat (Purebred),1.1,25,Mojon,True,False,1
+Dog (Aspin),12.1,38,Pinagbayanan,False,True,1
+Dog (Aspin),9.6,58,Bukal,True,True,1
+Dog (Purebred),1.7,12,San Antonio,True,False,0
+Cat (Puspin),13.2,23,Linga,True,True,0
+Cat (Puspin),13.9,53,Santa Clara Norte,False,False,0
+Dog (Purebred),1.4,42,Aplaya,False,False,1
+Dog (Purebred),4.5,22,Bukal,False,False,0
+Cat (Puspin),12.2,21,Linga,True,True,1
+Cat (Puspin),11.3,27,Bulilan Norte,False,True,1
+Cat (Purebred),3.2,57,Santa Clara Sur,False,True,1
+Cat (Purebred),3.5,31,Mojon,True,True,1
+Dog (Purebred),5.9,6,Pinagbayanan,False,True,1
+Cat (Purebred),7.5,27,San Miguel,True,True,1
+Dog (Aspin),9.5,40,San Miguel,False,False,0
+Cat (Purebred),5.8,34,Bagong Pook,False,False,0
+Cat (Purebred),7.2,12,Bulilan Sur,True,True,0
+Dog (Aspin),11.3,45,Bulilan Sur,False,False,0
+Dog (Purebred),1.0,57,Concepcion,False,False,1
+Dog (Aspin),4.2,53,San Antonio,False,False,0
+Cat (Purebred),10.8,7,Masico,True,False,0
+Dog (Purebred),13.5,10,Santa Clara Norte,True,True,0
+Cat (Purebred),7.9,45,San Miguel,True,True,1
+Dog (Aspin),8.2,17,Labuin,False,True,1
+Dog (Aspin),2.1,26,Bagong Pook,True,True,1
+Cat (Purebred),7.0,21,Labuin,False,False,0
+Cat (Puspin),8.2,28,Concepcion,False,False,0
+Cat (Puspin),4.0,58,Tubuan,True,True,1
+Dog (Aspin),4.4,46,Bagong Pook,False,True,1
+Dog (Aspin),6.0,2,Bukal,True,False,1
+Cat (Puspin),0.8,54,Bulilan Sur,False,True,1
+Cat (Puspin),5.2,43,Bulilan Sur,False,True,1
+Cat (Purebred),3.6,1,Aplaya,True,False,1
+Cat (Purebred),5.2,51,Linga,True,True,1
+Cat (Puspin),2.2,53,Pinagbayanan,False,True,1
+Cat (Purebred),13.4,36,Bulilan Norte,False,True,0
+Cat (Purebred),9.1,51,San Antonio,False,False,1
+Dog (Purebred),10.3,26,Santa Clara Norte,False,True,1
+Cat (Purebred),11.9,29,Pansol,True,True,0
+Dog (Aspin),7.7,21,Mojon,True,True,1
+Cat (Purebred),1.8,11,Bukal,True,True,1
+Cat (Purebred),8.3,40,San Miguel,False,True,1
+Cat (Puspin),9.0,11,Santa Clara Sur,False,False,1
+Dog (Aspin),11.3,36,Mojon,False,True,1
+Cat (Purebred),6.8,49,Mojon,True,False,0
+Cat (Purebred),2.3,59,Pinagbayanan,False,True,1
+Dog (Purebred),4.6,39,Masico,False,True,1
+Cat (Purebred),5.8,40,Aplaya,False,True,0
+Cat (Purebred),9.9,35,Bulilan Sur,False,True,1
+Dog (Purebred),8.8,54,Linga,True,True,1
+Cat (Puspin),5.7,34,Pansol,True,True,1
+Cat (Purebred),14.8,55,Pinagbayanan,False,True,0
+Dog (Purebred),9.3,47,Aplaya,False,False,0
+Dog (Aspin),3.9,24,Pansol,True,True,1
+Cat (Puspin),2.0,54,Bulilan Sur,False,False,0
+Dog (Aspin),2.7,22,Santa Clara Norte,False,False,0
+Dog (Aspin),4.1,5,Bulilan Sur,False,True,1
+Dog (Purebred),2.8,56,Pinagbayanan,False,True,1
+Cat (Purebred),3.2,33,Bulilan Sur,True,True,0
+Dog (Purebred),4.6,58,Tubuan,False,True,0
+Dog (Purebred),3.0,36,Tubuan,False,True,1
+Dog (Purebred),13.5,47,Pinagbayanan,False,False,1
+Dog (Purebred),1.7,20,Santa Clara Norte,False,True,1
+Cat (Puspin),8.1,19,Santa Clara Norte,False,True,1
+Cat (Purebred),6.5,35,Concepcion,True,False,0
+Dog (Aspin),14.7,52,Pinagbayanan,False,True,0
+Dog (Aspin),2.1,43,San Miguel,False,False,0
+Cat (Purebred),6.3,17,Bagong Pook,False,True,1
+Dog (Aspin),14.6,59,Masico,False,True,1
+Cat (Purebred),13.0,45,Bulilan Sur,False,True,1
+Dog (Aspin),12.3,43,Aplaya,False,True,1
+Dog (Purebred),4.2,34,Bukal,False,False,0
+Dog (Aspin),3.0,9,Concepcion,True,True,1
+Cat (Purebred),10.2,26,Bulilan Sur,True,False,0
+Cat (Purebred),14.0,2,Bulilan Sur,False,True,1
+Cat (Purebred),8.6,53,Aplaya,False,True,1
+Cat (Purebred),8.8,9,Tubuan,True,True,1
+Cat (Purebred),4.6,9,San Miguel,True,True,1
+Cat (Puspin),11.7,40,Pinagbayanan,False,False,0
+Cat (Puspin),3.2,17,Mojon,True,True,1
+Dog (Aspin),5.2,1,Pansol,True,True,1
+Cat (Purebred),6.7,25,Bagong Pook,True,True,0
+Dog (Aspin),7.9,43,Labuin,True,True,1
+Cat (Purebred),4.0,40,Santa Clara Norte,True,True,0
+Cat (Purebred),2.2,42,Pansol,True,True,1
+Cat (Puspin),9.4,25,Pinagbayanan,False,False,1
+Cat (Puspin),4.7,39,Concepcion,False,True,1
+Dog (Purebred),8.9,35,San Antonio,False,True,1
+Cat (Puspin),2.7,3,Santa Clara Sur,False,True,1
+Dog (Purebred),7.5,50,Mojon,True,True,0
+Dog (Purebred),8.2,37,Linga,True,False,1
+Dog (Purebred),1.3,44,Aplaya,False,True,1
+Dog (Purebred),5.4,44,Linga,True,True,1
+Dog (Purebred),2.4,51,Concepcion,False,False,1
+Dog (Aspin),1.4,30,Bulilan Sur,False,True,1
+Cat (Puspin),14.9,38,Santa Clara Norte,False,True,0
+Dog (Purebred),5.2,34,Santa Clara Norte,True,False,0
+Cat (Purebred),12.2,12,Bagong Pook,True,False,1
+Cat (Puspin),4.2,19,Aplaya,False,False,1
+Cat (Puspin),10.4,37,Pansol,True,True,1
+Dog (Purebred),11.5,44,Mojon,False,True,1
+Dog (Aspin),9.1,59,Tubuan,False,True,0
+Dog (Purebred),7.3,59,Linga,False,True,1
+Dog (Aspin),6.5,49,Santa Clara Norte,True,False,0
+Cat (Purebred),5.6,17,Linga,False,True,0
+Cat (Puspin),14.0,10,Tubuan,False,False,1
+Cat (Purebred),12.5,57,Pinagbayanan,True,False,1
+Dog (Aspin),14.5,55,Linga,True,True,0
+Dog (Aspin),2.3,49,San Miguel,False,True,1
+Cat (Purebred),11.1,47,Bulilan Norte,True,False,1
+Dog (Aspin),14.1,12,Aplaya,True,True,1
+Cat (Purebred),3.1,16,Aplaya,True,False,1
+Cat (Puspin),1.5,24,Santa Clara Sur,False,True,0
+Cat (Purebred),11.2,19,San Miguel,False,True,1
+Cat (Puspin),8.8,8,Santa Clara Sur,False,True,1
+Cat (Purebred),12.7,31,Bulilan Sur,True,False,1
+Dog (Aspin),2.5,21,Masico,True,True,1
+Cat (Purebred),12.0,17,Bagong Pook,False,False,1
+Dog (Aspin),3.4,23,Concepcion,False,True,1
+Cat (Purebred),2.9,37,Masico,True,False,1
+Cat (Purebred),2.9,54,Aplaya,False,False,1
+Dog (Purebred),12.3,16,Masico,False,True,0
+Dog (Aspin),10.1,6,Santa Clara Sur,False,True,1
+Dog (Purebred),8.1,8,San Antonio,False,False,1
+Dog (Aspin),5.7,25,Masico,False,True,1
+Dog (Purebred),13.2,18,San Antonio,True,False,1
+Cat (Puspin),6.2,25,Masico,False,True,1
+Cat (Purebred),12.3,12,Pansol,False,False,1
+Dog (Aspin),6.9,15,Bulilan Norte,True,False,1
+Dog (Aspin),6.0,59,Bagong Pook,False,False,0
+Cat (Purebred),7.2,26,Concepcion,False,True,0
+Dog (Aspin),4.9,41,San Miguel,False,True,1
+Dog (Aspin),11.3,45,Bulilan Norte,False,True,1
+Dog (Purebred),7.8,26,Concepcion,False,True,1
+Dog (Aspin),3.9,47,Concepcion,False,True,1
+Cat (Puspin),13.5,32,Bagong Pook,True,True,1
+Cat (Puspin),6.1,10,San Antonio,False,False,0
+Cat (Purebred),8.4,16,Masico,True,True,0
+Dog (Aspin),13.6,7,San Antonio,True,True,1
+Cat (Purebred),9.6,17,Pansol,False,False,0
