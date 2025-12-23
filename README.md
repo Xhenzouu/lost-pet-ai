@@ -2,7 +2,7 @@
 
 A machine learning project that predicts the likelihood of a lost pet being reunited with its owner in **Pila, Laguna, Philippines**.
 
-Initially trained on synthetic data reflecting local patterns (e.g., common aspin/puspin pets, low microchip rates, influence of Laguna de Bay). The latest version (v4) works for **any pet type** (dogs, cats, rabbits, birds, hamsters, etc.) by removing pet type as a feature and adding feature engineering to improve recall and reduce false negatives.
+This is version 4 (v4) — works for **any pet type** (dogs, cats, rabbits, birds, hamsters, etc.) by removing pet type as a feature and adding feature engineering (`days_missing_bucket`) to improve recall and reduce false negatives.
 
 Now deployed as an interactive **public web app** for easy community use!
 
@@ -13,8 +13,7 @@ Now deployed as an interactive **public web app** for easy community use!
 | Version | Accuracy | Recall (Found) | Notes                                           |
 | ------- | -------- | -------------- | ----------------------------------------------- |
 | v3      | 75.2%    | 83.2%          | Some false negatives (53); original features    |
-| v4      | 100%     | 100%           | Added days_missing_bucket; zero false negatives |
-
+| v4      | 100%     | 100%           | Added `days_missing_bucket`; zero false negatives |
 
 ---
 
@@ -22,14 +21,14 @@ Now deployed as an interactive **public web app** for easy community use!
 
 - **v1–v2**: Basic Random Forest model using pet type (Aspin, Puspin, Purebred), age, days missing, barangay, proximity to water, and microchip status.
 - **v3 Improvements**:
-  - Removed pet type feature (model performs better without it — works universally for any pet!).
-  - Kept key factors: age, days missing, barangay, near water, and especially **posting on Facebook** (now the strongest predictor for reunion!).
+  - Removed pet type feature (works universally for any pet).
+  - Key factors: age, days missing, barangay, near water, and **posting on Facebook** (strongest predictor).
   - Added flexible barangay input handling.
   - Built interactive console version in Python.
 - **v4 Feature Engineering**:
   - Added `days_missing_bucket` to capture non-linear recovery patterns in days missing.
-  - Improved recall and F1-score for the “Found” class.
-- **Major Milestone**: Converted to a **Streamlit web app** for public access.
+  - Improved recall and F1-score for the “Found” class; zero false negatives on synthetic data.
+- **Major Milestone**: Streamlit web app for public access.
   - Clean, mobile-friendly interface.
   - Real-time predictions with personalized advice (English + Filipino).
   - Encourages best practices: posting on FB, flyers, asking neighbors.
@@ -48,12 +47,13 @@ Now deployed as an interactive **public web app** for easy community use!
 - Outputs probability percentage + "Likely/Unlikely Found"
 - Personalized advice and encouragement
 - Works for **any pet** — no need to specify type!
+- Computes `days_missing_bucket` automatically from user input — seamless for users.
 
 ---
 
 ## Model Evaluation & Performance
 
-The model was evaluated using a held-out synthetic dataset of 500 samples.
+Dataset: 500 synthetic samples
 
 ### v3 Performance (before feature engineering)
 **Confusion Matrix**
@@ -92,17 +92,17 @@ The model was evaluated using a held-out synthetic dataset of 500 samples.
 
 ### Key Takeaways
 
-- Feature engineering (`days_missing_bucket`) effectively captured non-linear patterns.
-- Recall-focused improvements ensure the model is **community-use friendly**, helping owners find their pets.
-- Streamlit app now computes this feature automatically — users only enter days missing, making it seamless.
+- Feature engineering (`days_missing_bucket`) effectively captures non-linear patterns.
+- Recall-focused improvements make the model **community-use friendly**.
+- Streamlit app computes this feature automatically — users only need to enter days missing.
 
 ---
 
 ## Live Demo
 
-The app is now publicly available! Try it here:  
+Try it here:  
 **[Lost Pet Reunion Predictor Web App](https://your-app-name.streamlit.app)**  
-*(Replace with your actual deployed URL once live — e.g., after deploying to Streamlit Cloud)*
+*(Replace with your deployed URL once live)*
 
 Anyone in Pila (or nearby) can use it directly on their phone — just enter details and get an instant prediction 🐾
 
@@ -112,6 +112,8 @@ Anyone in Pila (or nearby) can use it directly on their phone — just enter det
 
 1. Clone the repository or download the files.
 2. Install dependencies:
-   ```bash
-   pip install streamlit pandas scikit-learn joblib
+
+```bash
+pip install streamlit pandas scikit-learn joblib
 3. Run the app: streamlit run app.py
+4. Enjoy instant predictions for lost pets in Pila, Laguna!

@@ -4,7 +4,9 @@ from pathlib import Path
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
+# Project directories
 BASE_DIR = Path(__file__).resolve().parent.parent
+PKL_DIR = BASE_DIR / "pkl"
 
 # Load dataset
 df = pd.read_csv(BASE_DIR / "csv" / "lost_pets_pila_dataset.csv")
@@ -26,6 +28,7 @@ df["days_missing_bucket"] = df["days_missing"].apply(bucket_days)
 le_barangay = LabelEncoder()
 df["barangay_encoded"] = le_barangay.fit_transform(df["barangay"])
 
+# Features
 features = [
     "age_years",
     "days_missing",
@@ -38,17 +41,16 @@ features = [
 X = df[features]
 y = df["found"]
 
-# Train model
+# Train Random Forest model
 model = RandomForestClassifier(
     n_estimators=200,
     random_state=42,
     class_weight="balanced"
 )
-
 model.fit(X, y)
 
 # Save artifacts in pkl folder
-joblib.dump(model, BASE_DIR / "pkl" / "lost_pet_model_v4.pkl")
-joblib.dump(le_barangay, BASE_DIR / "pkl" / "le_barangay.pkl")
+joblib.dump(model, PKL_DIR / "lost_pet_model_v4.pkl")
+joblib.dump(le_barangay, PKL_DIR / "le_barangay.pkl")
 
-print("✅ Model v4 trained with days_missing_bucket feature")
+print("✅ Model v4 trained and saved in pkl folder")
