@@ -40,4 +40,4 @@ DEFAULT_NEAR_WATER = "No"
 DEFAULT_POSTED_ON_FB = "No"
 
 # Database URL
-DB_URL = "postgresql+psycopg2://postgres:Xhenzouu@localhost:5432/lost_pet_ai"
+DB_URL = "postgresql://postgres:oROxBLtyvzbvoelFMGjDZYabJKbYTfkO@mainline.proxy.rlwy.net:44530/railway"
