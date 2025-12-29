@@ -1,3 +1,5 @@
+import streamlit as st
+
 # config.py
 
 # Page and app settings
@@ -40,4 +42,4 @@ DEFAULT_NEAR_WATER = "No"
 DEFAULT_POSTED_ON_FB = "No"
 
 # Database URL
-DB_URL = "postgresql://postgres:oROxBLtyvzbvoelFMGjDZYabJKbYTfkO@mainline.proxy.rlwy.net:44530/railway"
+DB_URL = st.secrets["postgres"]["DB_URL"]
