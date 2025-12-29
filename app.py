@@ -6,6 +6,10 @@ from core.views.dashboard_view import DashboardView
 from core.config import PAGE_TITLE, PAGE_ICON, LAYOUT
 from pathlib import Path
 
+# Pillow and numpy safe imports
+from PIL import Image
+import numpy as np
+
 # -------------------------------
 # Page Config
 # -------------------------------
@@ -32,7 +36,7 @@ role = st.sidebar.selectbox("Select Role", options=["Guest", "Admin"])
 def model_exists():
     project_root = Path(__file__).resolve().parent
     pkl_dir = project_root / "pkl"                  
-    model_file = pkl_dir / "lost_pet_model_v5.pkl"  # <- now v5
+    model_file = pkl_dir / "lost_pet_model_v5.pkl"
     le_file = pkl_dir / "le_barangay.pkl"
     return model_file.exists() and le_file.exists()
 
@@ -44,7 +48,7 @@ if role == "Guest":
         try:
             controller = AppController()
             view = AppView(controller)
-            view.render()  # v5 already returns public-friendly outputs
+            view.render()
         except Exception as e:
             st.error(f"⚠️ Failed to load the model: {e}")
     else:
@@ -64,11 +68,9 @@ elif role == "Admin":
 
     if password_input == ADMIN_PASSWORD:
         st.success("✅ Password correct — Access granted")
-        
         st.info(
             "⚠️ Disclaimer: The data displayed in this dashboard is only a portion of the "
-            "training dataset for the AI model. It is not to be used for any illegal or "
-            "unauthorized activities. Use responsibly!"
+            "training dataset for the AI model. Use responsibly!"
         )
 
         if model_exists():
@@ -80,7 +82,7 @@ elif role == "Admin":
         else:
             st.warning(
                 "⚠️ Model files not found. Admin dashboard may not display correctly. "
-                "Please ensure the 'pkl' folder contains the model and encoder files."
+                "Ensure the 'pkl' folder contains the model and encoder files."
             )
 
     elif password_input:
