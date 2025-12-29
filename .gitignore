@@ -1,6 +1,16 @@
-# pkl/
-# csv/
+# Model and data files
+pkl/
+csv/
+
+# Python cache
 __pycache__/
 *.pyc
+
+# Environment / config
 .env
 .streamlit
+
+# Temporary or generated files
+uploads/
+uploads/processed/
+helpers/
