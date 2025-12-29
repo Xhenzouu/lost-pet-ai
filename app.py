@@ -1,22 +1,20 @@
 # app.py
 import streamlit as st
-from config import PAGE_TITLE, PAGE_ICON, LAYOUT
-from model import load_model_artifacts, predict_reunion
-from ui import render_form, show_results
+from core.controllers.app_controller import AppController
+from core.views.app_view import AppView
+from core.views.dashboard_view import DashboardView
+from core.config import PAGE_TITLE, PAGE_ICON, LAYOUT
+from pathlib import Path
 
 # -------------------------------
 # Page Config
 # -------------------------------
-st.set_page_config(
-    page_title=PAGE_TITLE,
-    page_icon=PAGE_ICON,
-    layout=LAYOUT
-)
+st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON, layout=LAYOUT)
 
 # -------------------------------
 # Header
 # -------------------------------
-st.title("🐕🐈 Lost Pet Reunion Predictor for Pila, Laguna v4 🐇🐦🐢")
+st.title("🐕🐈 Lost Pet Reunion Predictor — Pila, Laguna v5 🐇🐦🐢")
 st.markdown("""
 **Works for ANY pet: dogs, cats, rabbits, birds, hamsters, etc.!**  
 Biggest factor: **Posting on Facebook = much higher chance!**  
@@ -24,42 +22,68 @@ Pila has ~57,776 people across 17 barangays — community power! 🐾
 """)
 
 # -------------------------------
-# Load Model Artifacts
+# Role Selection
 # -------------------------------
-try:
-    model, le_barangay = load_model_artifacts()
-except FileNotFoundError as e:
-    st.error(str(e))
-    st.stop()
+role = st.sidebar.selectbox("Select Role", options=["Guest", "Admin"])
 
 # -------------------------------
-# Render Form (UI)
+# Function to check if model exists
 # -------------------------------
-defaults = {"age": 1.0, "days": 1, "barangay": "Pansol"}
-submitted, pet_type, age, days, barangay, near_water, posted_on_fb = render_form(defaults=defaults)
+def model_exists():
+    project_root = Path(__file__).resolve().parent
+    pkl_dir = project_root / "pkl"                  
+    model_file = pkl_dir / "lost_pet_model_v5.pkl"  # <- now v5
+    le_file = pkl_dir / "le_barangay.pkl"
+    return model_file.exists() and le_file.exists()
 
 # -------------------------------
-# Handle Submission
+# Guest View
 # -------------------------------
-if submitted:
-    near_water_bool = 1 if near_water == "Yes" else 0
-    posted_on_fb_bool = 1 if posted_on_fb == "Yes" else 0
-
-    result_text, prob, days_bucket = predict_reunion(
-        model, le_barangay, age, days, barangay, near_water_bool, posted_on_fb_bool
-    )
-
-    if "Error" in result_text:
-        st.error(result_text)
+if role == "Guest":
+    if model_exists():
+        try:
+            controller = AppController()
+            view = AppView(controller)
+            view.render()  # v5 already returns public-friendly outputs
+        except Exception as e:
+            st.error(f"⚠️ Failed to load the model: {e}")
     else:
-        show_results(
-            result_text=result_text,
-            prob=prob,
-            days_bucket=days_bucket,
-            bucket_label_color_fn=lambda bucket: (
-                {0: ("Very recent", "green"), 1: ("Recent", "yellow"),
-                 2: ("Moderate", "orange"), 3: ("Long missing", "red")}
-                .get(bucket, ("Unknown", "gray"))
-            ),
-            posted_on_fb=posted_on_fb
+        st.warning(
+            "⚠️ Model files not found. Please ensure the 'pkl' folder contains:\n"
+            "- lost_pet_model_v5.pkl\n- le_barangay.pkl\n\n"
+            "Guest functionality is unavailable until the model is present."
         )
+
+# -------------------------------
+# Admin View
+# -------------------------------
+elif role == "Admin":
+    st.sidebar.markdown("### Admin Login")
+    password_input = st.sidebar.text_input("Enter admin password", type="password")
+    ADMIN_PASSWORD = st.secrets.get("ADMIN_PASSWORD")
+
+    if password_input == ADMIN_PASSWORD:
+        st.success("✅ Password correct — Access granted")
+        
+        st.info(
+            "⚠️ Disclaimer: The data displayed in this dashboard is only a portion of the "
+            "training dataset for the AI model. It is not to be used for any illegal or "
+            "unauthorized activities. Use responsibly!"
+        )
+
+        if model_exists():
+            try:
+                dashboard_view = DashboardView()
+                dashboard_view.render(default_page_size=20)
+            except Exception as e:
+                st.error(f"⚠️ Failed to load the dashboard: {e}")
+        else:
+            st.warning(
+                "⚠️ Model files not found. Admin dashboard may not display correctly. "
+                "Please ensure the 'pkl' folder contains the model and encoder files."
+            )
+
+    elif password_input:
+        st.error("❌ Incorrect password")
+    else:
+        st.info("Enter admin password to access dashboard")

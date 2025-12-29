@@ -1,124 +1,223 @@
-# Lost Pet Reunion AI – Pila, Laguna 🐕🐈🐇🐦🐢
+Lost Pet Reunion AI – Pila, Laguna 🐕🐈🐇🐦🐢
 
-A machine learning project that predicts the likelihood of a lost pet being reunited with its owner in **Pila, Laguna, Philippines**.
+A machine learning–powered community project that predicts the likelihood of a lost pet being reunited with its owner in Pila, Laguna, Philippines.
 
-This is **version 4 (v4)** — works for **any pet type** (dogs, cats, rabbits, birds, hamsters, etc.) by removing pet type as a feature and adding feature engineering (`days_missing_bucket`) to improve recall and reduce false negatives.
+Designed for real-world public use, this system prioritizes:
 
-Deployed as an **interactive public web app** for community use.
+🧠 High recall (don’t miss pets that are likely to be found)
+👥 Simplicity and clarity for non-technical users
+🔮 Extensibility for future AI upgrades (vision + similarity search)
 
-**Live Demo:** [https://lost-pet-ai.streamlit.app/](https://lost-pet-ai.streamlit.app/)
+Current production version: v5 (Public Release)
 
----
+🔗 Live Demo:
+https://lost-pet-ai.streamlit.app/
 
-## v3 vs v4 Performance Summary
+🌍 Project Overview
 
-| Version | Accuracy | Recall (Found) | Notes                                           |
-| ------- | -------- | -------------- | -----------------------------------------------|
-| v3      | 75.2%    | 83.2%          | Some false negatives (53); original features   |
-| v4      | 100%     | 100%           | Added `days_missing_bucket`; zero false negatives |
+Pila has ~57,776 residents across 17 barangays.
+In real life, lost pets are often recovered through community visibility, especially Facebook groups, neighbors, and barangay coordination.
 
----
+This app helps pet owners:
 
-## Project Progress (as of December 2025)
+Understand recovery likelihood early
+Take effective actions (posting on Facebook, searching nearby areas)
+Stay guided and encouraged during stressful situations
 
-- **v1–v2**: Basic Random Forest model using pet type, age, days missing, barangay, proximity to water, and microchip status.
-- **v3 Improvements**:
-  - Removed pet type feature (works universally for any pet).
-  - Key factors: age, days missing, barangay, near water, and **posting on Facebook** (strongest predictor).
-  - Flexible barangay input handling.
-  - Built interactive console version in Python.
-- **v4 Feature Engineering**:
-  - Added `days_missing_bucket` to capture non-linear recovery patterns in days missing.
-  - Improved recall and F1-score for the “Found” class; zero false negatives on synthetic data.
-- **Major Milestone**: Streamlit web app for public access.
-  - Clean, mobile-friendly interface.
-  - Real-time predictions with personalized advice (English + Filipino).
-  - Encourages best practices: posting on FB, flyers, asking neighbors.
-- **Next steps**: Collect real data from local reports/Facebook groups to retrain and improve accuracy.
+🔢 Model Versions Summary
 
----
+Version	Accuracy	Recall (Found)	Notes
+v3	75.2%	83.2%	Some false negatives
+v4	100%	100%	Added days_missing_bucket, logging, helper scripts
+v5	Public-focused	High recall	Image embeddings, similarity metrics, public explanations
 
-## Features (v4 Web App)
+⚠️ Important: Metrics are based on synthetic / limited data.
+Real-world data collection is ongoing.
 
-- Predicts reunion probability based on:
-  - Pet age (years)
-  - Days missing
-  - Barangay in Pila (all 17 supported)
-  - Near Laguna de Bay/water area
-  - Posted on Facebook/local groups (biggest impact!)
-- Outputs probability percentage + "Likely/Unlikely Found"
-- Personalized advice and encouragement
-- Works for **any pet** — no need to specify type!
-- Computes `days_missing_bucket` automatically from user input — seamless for users.
+🧠 Core Prediction Model (v5)
 
----
+Model Type: RandomForestClassifier
+Input Type: Tabular data (6 features)
 
-## Model Evaluation & Performance
+Features Used
+Pet age (years)
+Days missing
+days_missing_bucket (engineered feature)
+Barangay (label-encoded)
+Near Laguna de Bay / water area
+Posted on Facebook or local groups (strongest predictor)
 
-**Dataset:** 500 synthetic samples
+## 🧩 Why Pet Name Is Not Required for Prediction
 
-### v3 Performance (before feature engineering)
-**Confusion Matrix:**
+The AI model does **not** require a pet name to generate predictions.
 
-[[114 71]
-[ 53 262]]
+This is intentional and follows machine learning best practices:
 
+- The model predicts **outcomes**, not identities
+- Pet names are **non-causal identifiers** (e.g., “Ginger”, “Ming-ming”)
+- Names provide no statistical signal for recovery likelihood
+- Including names would add noise and reduce generalization
 
-| Class         | Precision | Recall | F1-score |
-| ------------- | --------- | ------ | -------- |
-| Not Found (0) | 0.683     | 0.616  | 0.648    |
-| Found (1)     | 0.787     | 0.832  | 0.809    |
+### Where pet names *are* used
+Pet names are optional metadata and are only used for:
+- Image-to-record association
+- Human-readable logs and dashboards
+- Migration and admin tooling
 
-- **Overall accuracy:** 75.2%  
-- **Recall for “Found” pets:** 83.2%  
+## Why Pet Type Is Not Used
 
----
+Pet type was intentionally removed to make the model:
+Universal (dogs, cats, birds, rabbits, etc.)
+Less biased by assumptions
+More robust with small datasets
 
-### v4 Performance (with `days_missing_bucket`)
-**Confusion Matrix:**
+days_missing_bucket (Key Innovation)
 
-[[185 0]
-[ 0 315]]
+Instead of relying on raw days alone, days missing are bucketed:
 
+Bucket	Days Missing
+0	1–3 days
+1	4–7 days
+2	8–14 days
+3	15+ days
 
-| Class         | Precision | Recall | F1-score |
-| ------------- | --------- | ------ | -------- |
-| Not Found (0) | 1.000     | 1.000  | 1.000    |
-| Found (1)     | 1.000     | 1.000  | 1.000    |
+This captures non-linear recovery behavior and significantly improves recall.
 
-- **Overall accuracy:** 100%  
-- **Recall for “Found” pets:** 100%  
-- **Key improvement:** Zero false negatives — all pets likely to be found are correctly identified.
+🖼️ Image Uploads & Embeddings (v5)
+What happens when users upload images?
 
----
+Images are saved to disk (/uploads)
+A 512-dimensional color histogram embedding is computed
+Embeddings are stored in PostgreSQL (pet_images.embedding)
+Images are safely archived in uploads/processed/
+Embeddings are used for similarity scoring, not prediction (yet)
 
-### Key Takeaways
+🔍 Image Similarity (v5)
 
-- Feature engineering (`days_missing_bucket`) captures non-linear patterns effectively.
-- Recall-focused improvements make the model **community-use friendly**.
-- Streamlit app computes this feature automatically — users only need to enter days missing.
+Cosine similarity is computed between uploaded images and existing pet images
+The maximum similarity score is exposed internally
+Used for:
+Explaining confidence
+Future matching / “similar-looking pet” features
 
----
+⚠️ Image embeddings do NOT directly affect the RandomForest prediction.
 
-## How to Run Locally
+This separation ensures:
 
-1. Clone the repository or download the files.
-2. Install dependencies:
+Model stability
+Explainability
+Future-proof architecture
 
-```bash
-pip install streamlit pandas scikit-learn joblib
+🧪 Embedding Method (Python 3.12 Safe)
 
-3. Run the app locally:
+No TensorFlow / PyTorch
+No GPU required
+Deterministic & fast
+Explainable (RGB histogram)
 
-```bash
+Current method can later be swapped with:
+
+CLIP
+MobileNet / EfficientNet
+Custom CNN
+👉 No database changes required.
+
+🧰 Embedding Migration Scripts
+To support legacy data, v5 introduces migration utilities:
+
+migrate_csv_to_db.py
+Imports historical CSV data into PostgreSQL
+
+migrate_embeddings_flexible.py
+Matches images to pets by name
+Auto-fills missing pet_name values (Pet-<id>)
+Computes embeddings
+Prevents duplicate processing
+Safe to rerun (idempotent)
+
+🧱 System Architecture
+
+Streamlit UI
+   ↓
+App Controller
+   ↓
+RandomForest (tabular prediction)
+   ↓
+Probability + Public-Friendly Advice
+
+Images
+   ↓
+Embeddings (stored in DB)
+   ↓
+Similarity scoring (v5)
+   ↓
+Future vision models
+
+🛠️ Tech Stack
+
+Python 3.12
+Streamlit
+Scikit-learn
+PostgreSQL
+SQLAlchemy
+Pillow
+NumPy
+Joblib
+
+▶️ Running Locally
+1️⃣ Clone the repository
+git clone https://github.com/your-username/lost-pet-ai.git
+cd lost-pet-ai
+
+2️⃣ Install dependencies
+pip install -r requirements.txt
+
+3️⃣ Ensure model files exist
+pkl/
+├─ lost_pet_model_v5.pkl
+├─ le_barangay.pkl
+
+4️⃣ Run the app
 streamlit run app.py
 
-4. Open your browser and interact with the app to get instant predictions for lost pets in Pila, Laguna!
+🧪 Testing Without Streamlit
+python -m core.predict
 
-Contributing
-Pull requests are welcome for improving features, dataset updates, or UI enhancements.
-Please do not commit large model files (.pkl) — use .gitignore.
-Always respect privacy when handling real pet or owner data.
 
-License
-MIT License — feel free to use and adapt for non-commercial community purposes.
+Returns:
+
+pet_id
+pet_name
+probability
+days_bucket
+embeddings_count
+max_similarity
+result_text
+
+📊 Admin Dashboard
+
+Admin-only features include:
+
+Prediction history
+Barangay trends
+Recovery statistics
+Image similarity inspection
+⚠️ Dashboard data represents training / demo data only.
+
+🚀 Future Roadmap
+
+🔍 Visual similarity search (find matching pets)
+🧠 Hybrid tabular + vision models
+⚡ FAISS vector indexing
+📊 Real community & Facebook signal ingestion
+🌐 Expansion beyond Pila, Laguna
+
+🤝 Contributing
+
+Pull requests are welcome.
+
+Please:
+
+❌ Do not commit large .pkl files
+🔒 Respect data privacy
+🚫 Avoid uploading real owner-identifying data

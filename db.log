@@ -1,0 +1,32 @@
+2025-12-25 23:27:18,646 [INFO] Fetched pet ID 1 with 0 embeddings.
+2025-12-25 23:27:25,953 [ERROR] Prediction failed for pet ID 1: too many values to unpack (expected 3)
+2025-12-25 23:33:41,372 [INFO] Fetched pet ID 1 with 0 embeddings.
+2025-12-25 23:38:14,515 [INFO] Fetched pet ID 1 with 0 embeddings.
+2025-12-25 23:38:15,828 [INFO] Prediction for pet ID 1 (Bunny): Probability of being found: 34.0% → Unlikely Found
+2025-12-25 23:41:39,191 [INFO] Fetched pet ID 1 with 0 embeddings.
+2025-12-25 23:41:40,634 [INFO] Prediction for pet ID 1 (Bunny): Probability of being found: 34.0% → Unlikely Found
+2025-12-25 23:41:40,635 [INFO] Test prediction for pet ID 1: {'pet_id': 1, 'pet_name': 'Bunny', 'result_text': 'Probability of being found: 34.0% → Unlikely Found', 'probability': 0.34, 'days_bucket': 0, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:41:40,637 [INFO] Fetched pet ID 2 with 0 embeddings.
+2025-12-25 23:41:40,721 [INFO] Prediction for pet ID 2 (None): Probability of being found: 20.0% → Unlikely Found
+2025-12-25 23:41:40,722 [INFO] Test prediction for pet ID 2: {'pet_id': 2, 'pet_name': None, 'result_text': 'Probability of being found: 20.0% → Unlikely Found', 'probability': 0.2, 'days_bucket': 1, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:41:40,724 [INFO] Fetched pet ID 3 with 0 embeddings.
+2025-12-25 23:41:40,806 [INFO] Prediction for pet ID 3 (None): Probability of being found: 99.0% → Likely Found
+2025-12-25 23:41:40,807 [INFO] Test prediction for pet ID 3: {'pet_id': 3, 'pet_name': None, 'result_text': 'Probability of being found: 99.0% → Likely Found', 'probability': 0.99, 'days_bucket': 3, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:43:16,632 [INFO] Fetched pet ID 1 with 0 embeddings.
+2025-12-25 23:43:17,865 [INFO] Prediction for pet ID 1 (Bunny): Probability of being found: 34.0% → Unlikely Found
+2025-12-25 23:43:17,867 [INFO] Prediction for pet ID 1: {'pet_id': 1, 'pet_name': 'Bunny', 'result_text': 'Probability of being found: 34.0% → Unlikely Found', 'probability': 0.34, 'days_bucket': 0, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:44:48,573 [INFO] Fetched pet ID 1 with 0 embeddings.
+2025-12-25 23:44:49,883 [INFO] Prediction for pet ID 1 (Bunny): Probability of being found: 34.0% → Unlikely Found
+2025-12-25 23:44:49,884 [INFO] Prediction for pet ID 1: {'pet_id': 1, 'pet_name': 'Bunny', 'result_text': 'Probability of being found: 34.0% → Unlikely Found', 'probability': 0.34, 'days_bucket': 0, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:44:49,887 [INFO] Fetched pet ID 2 with 0 embeddings.
+2025-12-25 23:44:49,968 [INFO] Prediction for pet ID 2 (None): Probability of being found: 20.0% → Unlikely Found
+2025-12-25 23:44:49,969 [INFO] Prediction for pet ID 2: {'pet_id': 2, 'pet_name': None, 'result_text': 'Probability of being found: 20.0% → Unlikely Found', 'probability': 0.2, 'days_bucket': 1, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:44:49,972 [INFO] Fetched pet ID 3 with 0 embeddings.
+2025-12-25 23:44:50,054 [INFO] Prediction for pet ID 3 (None): Probability of being found: 99.0% → Likely Found
+2025-12-25 23:44:50,055 [INFO] Prediction for pet ID 3: {'pet_id': 3, 'pet_name': None, 'result_text': 'Probability of being found: 99.0% → Likely Found', 'probability': 0.99, 'days_bucket': 3, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:44:50,058 [INFO] Fetched pet ID 4 with 0 embeddings.
+2025-12-25 23:44:50,140 [INFO] Prediction for pet ID 4 (None): Probability of being found: 88.5% → Likely Found
+2025-12-25 23:44:50,141 [INFO] Prediction for pet ID 4: {'pet_id': 4, 'pet_name': None, 'result_text': 'Probability of being found: 88.5% → Likely Found', 'probability': 0.885, 'days_bucket': 1, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
+2025-12-25 23:44:50,144 [INFO] Fetched pet ID 5 with 0 embeddings.
+2025-12-25 23:44:50,225 [INFO] Prediction for pet ID 5 (None): Probability of being found: 86.0% → Likely Found
+2025-12-25 23:44:50,226 [INFO] Prediction for pet ID 5: {'pet_id': 5, 'pet_name': None, 'result_text': 'Probability of being found: 86.0% → Likely Found', 'probability': 0.86, 'days_bucket': 1, 'image_count': 0, 'avg_embedding_norm': None, 'embeddings_count': 0}
