@@ -209,6 +209,14 @@ Future vision models
 
 ---
 
+## ☁️ Cloud Database
+
+This app is already configured to connect to a **PostgreSQL database hosted on Railway**.  
+DB credentials are managed via Streamlit secrets (`st.secrets`) and are used automatically at runtime.  
+No local database setup is required unless you want to run it entirely offline.
+
+---
+
 ## ▶️ Running Locally
 
 1. **Clone the repository**
@@ -232,6 +240,7 @@ pkl/
 streamlit run app.py
 
 🧪 Testing Without Streamlit
+
 python -m core.predict
 
 Returns:
