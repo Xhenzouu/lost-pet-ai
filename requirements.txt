@@ -3,7 +3,7 @@
 # -------------------------------
 streamlit==1.30.0
 
-# Pillow for images (compatible with Streamlit Cloud + Python 3.13)
+# Pillow for images
 Pillow==9.5.0
 
 # -------------------------------
