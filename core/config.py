@@ -1,8 +1,8 @@
 import streamlit as st
 
-# config.py
-
-# Page and app settings
+# -------------------------------
+# App settings
+# -------------------------------
 PAGE_TITLE = "Lost Pet Reunion Predictor v4"
 PAGE_ICON = "🐕🐈"
 LAYOUT = "centered"
@@ -41,5 +41,10 @@ DEFAULT_BRG = 'Pansol'
 DEFAULT_NEAR_WATER = "No"
 DEFAULT_POSTED_ON_FB = "No"
 
-# Database URL
-DB_URL = st.secrets["postgres"]["DB_URL"]
+# -------------------------------
+# Database URL (Streamlit Secrets)
+# -------------------------------
+try:
+    DB_URL = st.secrets["postgres"]["DB_URL"]
+except KeyError:
+    DB_URL = None

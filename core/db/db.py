@@ -1,25 +1,20 @@
-# core/db/db.py
-
 from sqlalchemy import create_engine, MetaData, Table, select
 from sqlalchemy.orm import sessionmaker
 import json
 import logging
-import os
 from ..config import DB_URL
 
 # -------------------------------
-# Configure logging
+# Logging
 # -------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.StreamHandler()
-    ]
+    handlers=[logging.StreamHandler()]
 )
 
 # -------------------------------
-# Engine & Session (SAFE)
+# Engine & Session (Safe)
 # -------------------------------
 engine = None
 SessionLocal = None
@@ -33,27 +28,18 @@ if DB_URL:
         engine = create_engine(DB_URL, future=True)
         SessionLocal = sessionmaker(bind=engine, future=True)
 
-        # Reflect tables ONLY if DB is reachable
-        lost_pets_table = Table(
-            "lost_pets", metadata, autoload_with=engine
-        )
-        pet_images_table = Table(
-            "pet_images", metadata, autoload_with=engine
-        )
+        # Reflect tables
+        lost_pets_table = Table("lost_pets", metadata, autoload_with=engine)
+        pet_images_table = Table("pet_images", metadata, autoload_with=engine)
 
         logging.info("Database connection initialized successfully.")
-
     except Exception as e:
         logging.warning(f"Database not available: {e}")
-        engine = None
-        SessionLocal = None
-        lost_pets_table = None
-        pet_images_table = None
 else:
     logging.info("No DB_URL provided. Running in no-database mode.")
 
 # -------------------------------
-# Fetch lost pet record (SAFE)
+# Fetch lost pet record
 # -------------------------------
 def get_lost_pet(pet_id: int):
     if SessionLocal is None or lost_pets_table is None:
@@ -87,21 +73,13 @@ def get_lost_pet(pet_id: int):
         )
         image_rows = session.execute(stmt_images).all()
 
-        embeddings = []
-        for r in image_rows:
-            if r[0]:
-                embeddings.append(json.loads(r[0]))
-
+        embeddings = [json.loads(r[0]) for r in image_rows if r[0]]
         pet_data["embeddings"] = embeddings
 
-        logging.info(
-            f"Fetched pet ID {pet_id} with {len(embeddings)} embeddings."
-        )
+        logging.info(f"Fetched pet ID {pet_id} with {len(embeddings)} embeddings.")
         return pet_data
-
     except Exception as e:
-        logging.error(f"Failed to fetch pet ID {pet_id}: {str(e)}")
+        logging.error(f"Failed to fetch pet ID {pet_id}: {e}")
         return None
-
     finally:
         session.close()
