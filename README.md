@@ -155,12 +155,24 @@ To support legacy data, v5 introduces migration utilities:
 - **migrate_csv_to_db.py**  
   Imports historical CSV data into PostgreSQL  
 
-- **migrate_embeddings_flexible.py**  
+- **migrate_embeddings_flexible.py**    
   Matches images to pets by name  
   Auto-fills missing `pet_name` values (`Pet-<id>`)  
   Computes embeddings  
   Prevents duplicate processing  
   Safe to rerun (idempotent)
+
+---
+
+📋 Database Schema Reference
+
+For developer reference, see `core/db/schemas.py` for detailed table and field documentation:
+
+- `lost_pets` — stores pet metadata
+- `pet_images` — stores uploaded images and embeddings
+- `predictions` — stores model prediction results
+
+This file includes notes on required vs optional fields and explains which fields are used by the v5 model.
 
 ---
 
@@ -215,14 +227,12 @@ pkl/
 ├─ lost_pet_model_v5.pkl
 ├─ le_barangay.pkl
 
-
 4. Run the app
 
 streamlit run app.py
 
 🧪 Testing Without Streamlit
 python -m core.predict
-
 
 Returns:
 
