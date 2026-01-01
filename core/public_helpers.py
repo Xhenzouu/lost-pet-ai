@@ -97,8 +97,9 @@ def interpret_prediction(prediction: Dict[str, Any], barangay: str) -> Dict[str,
     """
     Takes the raw prediction dict from core.model.predict_reunion()
     and returns a user-friendly dictionary suitable for Streamlit display.
+    Probability is returned as a float, not a string.
     """
-    probability = prediction.get("probability")
+    probability = prediction.get("probability") or 0.0  # fallback to 0.0
     days_bucket = prediction.get("days_bucket")
     posted_on_fb = prediction.get("posted_on_fb")
     near_water = prediction.get("near_water")
@@ -113,7 +114,7 @@ def interpret_prediction(prediction: Dict[str, Any], barangay: str) -> Dict[str,
 
     return {
         "band": interpret_probability(probability),
-        "probability": f"{probability:.1%}" if probability is not None else "N/A",
+        "probability": probability,  # <-- return as float
         "reasons": generate_reasons(input_data),
         "actions": generate_actions(input_data, barangay)
     }
