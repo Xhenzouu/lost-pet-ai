@@ -1,5 +1,3 @@
-# core/public_helpers.py
-
 from typing import Dict, Any
 
 # ------------------------------------------
@@ -20,10 +18,6 @@ def interpret_probability(prob: float) -> str:
 # Public Helper: generate reason explanations
 # ------------------------------------------
 def generate_reasons(input_data: Dict[str, Any]) -> list:
-    """
-    Provide plain-language reasons why the probability is high/low.
-    Expects keys: days_bucket, posted_on_fb, near_water
-    """
     reasons = []
 
     days_bucket = input_data.get("days_bucket")
@@ -81,10 +75,10 @@ def generate_actions(input_data: Dict[str, Any], barangay: str) -> list:
     if barangay:
         actions.append(f"Visit your Barangay Hall ({barangay}) to report the lost pet.")
 
-    # Images
+    # Images: only suggest adding photos if none uploaded
     if image_count == 0:
         actions.append("Add clear photos of your pet for better recognition.")
-    else:
+    elif image_count > 0:
         actions.append("Ensure the photos of your pet are clear and recent.")
 
     # Safety disclaimer
@@ -97,7 +91,7 @@ def generate_actions(input_data: Dict[str, Any], barangay: str) -> list:
 # Public Helper: full interpretation
 # ------------------------------------------
 def interpret_prediction(prediction: Dict[str, Any], barangay: str) -> Dict[str, Any]:
-    probability = prediction.get("probability")
+    probability = prediction.get("probability", 0.0)  # fallback to 0.0
     days_bucket = prediction.get("days_bucket")
     posted_on_fb = prediction.get("posted_on_fb")
     near_water = prediction.get("near_water")
@@ -112,7 +106,7 @@ def interpret_prediction(prediction: Dict[str, Any], barangay: str) -> Dict[str,
 
     return {
         "band": interpret_probability(probability),
-        "probability": f"{probability:.1%}" if probability is not None else "N/A",
+        "probability": f"{probability:.1%}",  # always format as percent
         "reasons": generate_reasons(input_data),
         "actions": generate_actions(input_data, barangay)
     }
