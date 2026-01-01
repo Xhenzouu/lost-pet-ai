@@ -6,12 +6,8 @@ from typing import Dict, Any
 # Public Helper: interpret probability
 # ------------------------------------------
 def interpret_probability(prob: float) -> str:
-    """
-    Convert raw probability into a human-friendly band.
-    """
     if prob is None:
         return "Unknown"
-
     if prob < 0.3:
         return "Low chance"
     elif prob < 0.65:
@@ -33,6 +29,12 @@ def generate_reasons(input_data: Dict[str, Any]) -> list:
     days_bucket = input_data.get("days_bucket")
     posted_on_fb = input_data.get("posted_on_fb")
     near_water = input_data.get("near_water")
+
+    # Convert booleans to integers if needed
+    if isinstance(posted_on_fb, bool):
+        posted_on_fb = int(posted_on_fb)
+    if isinstance(near_water, bool):
+        near_water = int(near_water)
 
     # Days missing
     if days_bucket is not None:
@@ -62,13 +64,14 @@ def generate_reasons(input_data: Dict[str, Any]) -> list:
 # Public Helper: action recommendations
 # ------------------------------------------
 def generate_actions(input_data: Dict[str, Any], barangay: str) -> list:
-    """
-    Return actionable steps in plain language.
-    """
     actions = []
 
     posted_on_fb = input_data.get("posted_on_fb")
     image_count = input_data.get("image_count", 0)
+
+    # Convert booleans to integers if needed
+    if isinstance(posted_on_fb, bool):
+        posted_on_fb = int(posted_on_fb)
 
     # Facebook posting
     if posted_on_fb != 1:
@@ -94,12 +97,7 @@ def generate_actions(input_data: Dict[str, Any], barangay: str) -> list:
 # Public Helper: full interpretation
 # ------------------------------------------
 def interpret_prediction(prediction: Dict[str, Any], barangay: str) -> Dict[str, Any]:
-    """
-    Takes the raw prediction dict from core.model.predict_reunion()
-    and returns a user-friendly dictionary suitable for Streamlit display.
-    Probability is returned as a float, not a string.
-    """
-    probability = prediction.get("probability") or 0.0  # fallback to 0.0
+    probability = prediction.get("probability")
     days_bucket = prediction.get("days_bucket")
     posted_on_fb = prediction.get("posted_on_fb")
     near_water = prediction.get("near_water")
@@ -114,7 +112,7 @@ def interpret_prediction(prediction: Dict[str, Any], barangay: str) -> Dict[str,
 
     return {
         "band": interpret_probability(probability),
-        "probability": probability,  # <-- return as float
+        "probability": f"{probability:.1%}" if probability is not None else "N/A",
         "reasons": generate_reasons(input_data),
         "actions": generate_actions(input_data, barangay)
     }

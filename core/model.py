@@ -55,31 +55,17 @@ def predict_reunion(
 ):
     """
     Predict lost pet reunion probability.
-    Returns dictionary with numeric probability and embedding info.
+    Works with dropdown-selected barangay.
+    Returns numeric probability and embedding info.
     """
 
     # -------------------------------
-    # Clean and match barangay
+    # Encode barangay (dropdown guarantees valid input)
     # -------------------------------
-    barangay_clean = barangay_input.strip()
-    if barangay_clean not in BARANGAYS:
-        # Try case-insensitive match
-        matched = [b for b in BARANGAYS if b.lower() == barangay_clean.lower()]
-        if not matched:
-            return {
-                "result_text": "Error: Barangay not found. Please choose a valid barangay.",
-                "probability": 0.0,
-                "days_bucket": bucket_days(days_missing),
-                "image_count": len(embeddings) if embeddings else 0,
-                "avg_embedding_norm": None
-            }
-        barangay_clean = matched[0]
-
-    # Encode barangay
     try:
-        barangay_encoded = int(le_barangay.transform([barangay_clean])[0])
+        barangay_encoded = int(le_barangay.transform([barangay_input])[0])
     except Exception:
-        # fallback if label encoding fails
+        # fallback if label encoding fails for some reason
         barangay_encoded = 0
 
     # -------------------------------
