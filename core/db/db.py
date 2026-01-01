@@ -16,7 +16,7 @@ logging.basicConfig(
 )
 
 # -------------------------------
-# Engine & Session
+# Engine, Session & Metadata
 # -------------------------------
 engine = None
 SessionLocal = None
@@ -34,18 +34,20 @@ if DB_URL:
         lost_pets_table = Table("lost_pets", metadata, autoload_with=engine)
         pet_images_table = Table("pet_images", metadata, autoload_with=engine)
 
-        logging.info("Database connection initialized successfully.")
+        logging.info("✅ Database connection initialized successfully.")
     except Exception as e:
-        logging.warning(f"Database not available: {e}")
+        logging.warning(f"⚠️ Database not available: {e}")
+        engine = None
+        SessionLocal = None
 else:
-    logging.info("No DB_URL provided. Running in no-database mode.")
+    logging.info("ℹ️ No DB_URL provided. Running in no-database mode.")
 
 # -------------------------------
 # Fetch lost pet record
 # -------------------------------
 def get_lost_pet(pet_id: int):
-    if SessionLocal is None or lost_pets_table is None:
-        logging.warning("Database disabled. get_lost_pet skipped.")
+    if not SessionLocal or not lost_pets_table or not pet_images_table:
+        logging.warning("⚠️ Database disabled. get_lost_pet skipped.")
         return None
 
     session = SessionLocal()
@@ -67,21 +69,21 @@ def get_lost_pet(pet_id: int):
             return None
 
         pet_data = dict(pet_row._mapping)
-        pet_data["age"] = float(pet_data.pop("age_years"))
+        pet_data["age"] = float(pet_data.pop("age_years", 0))
         pet_data["embeddings"] = []
 
         stmt_images = select(pet_images_table.c.embedding).where(
             pet_images_table.c.lost_pet_id == pet_id
         )
         image_rows = session.execute(stmt_images).all()
-
         embeddings = [json.loads(r[0]) for r in image_rows if r[0]]
         pet_data["embeddings"] = embeddings
 
         logging.info(f"Fetched pet ID {pet_id} with {len(embeddings)} embeddings.")
         return pet_data
+
     except Exception as e:
         logging.error(f"Failed to fetch pet ID {pet_id}: {e}")
         return None
     finally:
-        session.close() 
+        session.close()

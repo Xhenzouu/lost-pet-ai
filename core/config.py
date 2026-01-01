@@ -1,16 +1,21 @@
 # core/config.py
 
-import os
-
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass
+import streamlit as st
 
 PAGE_TITLE = "Lost Pet Reunion Predictor v5"
 PAGE_ICON = "🐕🐈"
 LAYOUT = "centered"
+
+ADMIN_PASSWORD = st.secrets["auth"]["ADMIN_PASSWORD"]
+DB_URL = st.secrets["postgres"]["DB_URL"]
+
+# Cloudinary config
+import cloudinary
+cloudinary.config(
+    cloud_name=st.secrets["cloudinary"]["CLOUDINARY_CLOUD_NAME"],
+    api_key=st.secrets["cloudinary"]["CLOUDINARY_API_KEY"],
+    api_secret=st.secrets["cloudinary"]["CLOUDINARY_API_SECRET"]
+)
 
 BARANGAYS = [
     "Aplaya", "Bagong Pook", "Bukal", "Bulilan Norte", "Bulilan Sur",
@@ -41,6 +46,3 @@ DEFAULT_DAYS = 1
 DEFAULT_BRG = "Pansol"
 DEFAULT_NEAR_WATER = "No"
 DEFAULT_POSTED_ON_FB = "No"
-
-DB_URL = os.getenv("DB_URL")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
