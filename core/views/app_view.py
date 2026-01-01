@@ -2,7 +2,7 @@
 import streamlit as st
 from core.ui import render_form, render_role_selection
 from core.public_helpers import interpret_prediction
-import cloudinary
+from PIL import Image
 import io
 
 class AppView:
@@ -31,35 +31,21 @@ class AppView:
         submitted, pet_type, age, days, barangay, near_water, posted_on_fb, uploaded_files = render_form(defaults)
 
         if submitted:
-            uploaded_file_urls = []
-
-            # Upload files to Cloudinary
-            if uploaded_files:
-                for file in uploaded_files:
-                    try:
-                        file_bytes = file.getbuffer()
-                        upload_result = cloudinary.uploader.upload(
-                            io.BytesIO(file_bytes),
-                            folder="pila_pets_ai",
-                            resource_type="image"
-                        )
-                        uploaded_file_urls.append(upload_result["secure_url"])
-                    except Exception as e:
-                        st.error(f"❌ Failed to upload {file.name}: {e}")
-
-            if uploaded_file_urls:
-                st.markdown("**Uploaded Images Preview:**")
-                for img_path in uploaded_file_urls:
-                    st.image(img_path, width=200)
-
-            # Handle submission
+            # Handle submission using controller
             result = self.controller.handle_submission(
                 pet_type, age, days, barangay, near_water, posted_on_fb, uploaded_files
             )
 
-            if "error" in result:
-                st.error(result["error"])
-                return
+            # Uploaded images preview
+            if uploaded_files:
+                st.markdown("**Uploaded Images Preview:**")
+                for f in uploaded_files:
+                    try:
+                        f.seek(0)
+                        img = Image.open(io.BytesIO(f.read()))
+                        st.image(img, width=200)
+                    except Exception:
+                        st.warning(f"⚠️ Could not preview {f.name}")
 
             st.markdown(f"### 🐾 Prediction: {result['result_text']}")
             st.markdown("**Reasons:**")
@@ -68,3 +54,4 @@ class AppView:
             st.markdown("**Recommended Actions:**")
             for action in result["actions"]:
                 st.write(f"✅ {action}")
+            st.info(f"🔹 Number of embeddings used: {result['num_images']}")

@@ -1,5 +1,4 @@
 # core/controllers/app_controller.py
-
 from core.models.lost_pet_model import LostPetModel
 from core.model import load_model_artifacts, predict_reunion
 from core.db.db_utils import log_prediction
@@ -11,16 +10,7 @@ class AppController:
         self.model, self.le_barangay = load_model_artifacts()
         self.dashboard_view = DashboardView()
 
-    def handle_submission(
-        self,
-        pet_type,
-        age,
-        days,
-        barangay,
-        near_water,
-        posted_on_fb,
-        uploaded_files_or_urls
-    ):
+    def handle_submission(self, pet_type, age, days, barangay, near_water, posted_on_fb, uploaded_files):
         near_water_bool = True if near_water == "Yes" else False
         posted_on_fb_bool = True if posted_on_fb == "Yes" else False
 
@@ -37,7 +27,7 @@ class AppController:
             return {"error": "Failed to save lost pet to database."}
 
         # Save images & compute embeddings
-        embeddings = LostPetModel.save_pet_images(lost_pet_id, uploaded_files_or_urls)
+        embeddings = LostPetModel.save_pet_images(lost_pet_id, uploaded_files)
 
         # Predict reunion
         raw_prediction = predict_reunion(

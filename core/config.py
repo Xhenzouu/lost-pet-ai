@@ -1,6 +1,6 @@
 # core/config.py
-
 import streamlit as st
+import cloudinary
 
 PAGE_TITLE = "Lost Pet Reunion Predictor v5"
 PAGE_ICON = "🐕🐈"
@@ -9,8 +9,6 @@ LAYOUT = "centered"
 ADMIN_PASSWORD = st.secrets["auth"]["ADMIN_PASSWORD"]
 DB_URL = st.secrets["postgres"]["DB_URL"]
 
-# Cloudinary config
-import cloudinary
 cloudinary.config(
     cloud_name=st.secrets["cloudinary"]["CLOUDINARY_CLOUD_NAME"],
     api_key=st.secrets["cloudinary"]["CLOUDINARY_API_KEY"],

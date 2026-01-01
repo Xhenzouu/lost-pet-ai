@@ -39,7 +39,6 @@ except Exception as e:
 
 # Cloudinary check
 try:
-    # Ensure credentials are set
     cfg = cloudinary.config()
     if not all([cfg.cloud_name, cfg.api_key, cfg.api_secret]):
         raise ValueError("Cloudinary config incomplete")
@@ -59,7 +58,7 @@ if not model_exists():
 if startup_errors:
     for err in startup_errors:
         st.error(err)
-    st.stop()  # Stop the app if any critical error
+    st.stop()
 
 # -------------------------
 # Sidebar Role Selection

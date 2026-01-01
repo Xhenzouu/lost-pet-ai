@@ -1,5 +1,4 @@
 # core/models/lost_pet_model.py
-
 from sqlalchemy import text
 from core.db.db import SessionLocal
 from typing import List
@@ -11,7 +10,6 @@ import cloudinary
 import cloudinary.uploader
 
 def compute_color_histogram_embedding(img: Image.Image) -> List[float]:
-    """Compute 512-dim normalized RGB histogram."""
     img = img.resize((224, 224)).convert("RGB")
     img_array = np.array(img)
     hist = np.histogramdd(
@@ -21,13 +19,9 @@ def compute_color_histogram_embedding(img: Image.Image) -> List[float]:
     )[0]
     return (hist.flatten() / (np.linalg.norm(hist.flatten()) + 1e-8)).tolist()
 
-
 class LostPetModel:
-
     @staticmethod
-    def save_lost_pet(pet_type: str, age_years: float, days_missing: int,
-                      near_water: bool, posted_on_fb: bool, barangay: str) -> int:
-        """Save lost pet metadata and return DB ID."""
+    def save_lost_pet(pet_type, age_years, days_missing, near_water, posted_on_fb, barangay) -> int:
         session = SessionLocal()
         lost_pet_id = None
         try:
@@ -57,23 +51,21 @@ class LostPetModel:
 
     @staticmethod
     def save_pet_images(lost_pet_id: int, uploaded_files: list) -> List[List[float]]:
-        """Save multiple images to Cloudinary and return embeddings."""
-        if not uploaded_files:
-            return []
         embeddings = []
-        for f in uploaded_files:
-            emb = LostPetModel.save_pet_image_with_embedding(lost_pet_id, f)
+        if not uploaded_files:
+            return embeddings
+
+        for file in uploaded_files:
+            emb = LostPetModel.save_pet_image_with_embedding(lost_pet_id, file)
             if emb:
                 embeddings.append(emb)
         return embeddings
 
     @staticmethod
     def save_pet_image_with_embedding(lost_pet_id: int, uploaded_file) -> List[float]:
-        """Upload image to Cloudinary, compute embedding, store in DB."""
         session = SessionLocal()
         embedding = None
         try:
-            # Read file bytes safely
             if hasattr(uploaded_file, "getbuffer"):
                 file_bytes = uploaded_file.getbuffer()
             else:
@@ -81,7 +73,6 @@ class LostPetModel:
                 file_bytes = uploaded_file.read()
                 uploaded_file.seek(0)
 
-            # Upload to Cloudinary
             upload_result = cloudinary.uploader.upload(
                 io.BytesIO(file_bytes),
                 folder="pila_pets_ai",
@@ -89,11 +80,8 @@ class LostPetModel:
             )
             image_url = upload_result.get("secure_url")
             img = Image.open(io.BytesIO(file_bytes)).convert("RGB")
-
-            # Compute embedding
             embedding = compute_color_histogram_embedding(img)
 
-            # Insert into DB
             query = """
                 INSERT INTO pet_images (lost_pet_id, image_path, embedding)
                 VALUES (:lost_pet_id, :image_path, :embedding)
@@ -109,12 +97,10 @@ class LostPetModel:
             raise
         finally:
             session.close()
-
         return embedding
 
     @staticmethod
     def get_existing_embeddings() -> List[List[float]]:
-        """Fetch all 512-dim embeddings from DB."""
         session = SessionLocal()
         embeddings_list = []
         try:

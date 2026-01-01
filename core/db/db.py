@@ -1,23 +1,16 @@
 # core/db/db.py
-
 from sqlalchemy import create_engine, MetaData, Table, select
 from sqlalchemy.orm import sessionmaker
 import json
 import logging
 from ..config import DB_URL
 
-# -------------------------------
-# Logging
-# -------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[logging.StreamHandler()]
 )
 
-# -------------------------------
-# Engine, Session & Metadata
-# -------------------------------
 engine = None
 SessionLocal = None
 metadata = MetaData()
@@ -30,7 +23,6 @@ if DB_URL:
         engine = create_engine(DB_URL, future=True)
         SessionLocal = sessionmaker(bind=engine, future=True)
 
-        # Reflect tables
         lost_pets_table = Table("lost_pets", metadata, autoload_with=engine)
         pet_images_table = Table("pet_images", metadata, autoload_with=engine)
 
@@ -42,9 +34,6 @@ if DB_URL:
 else:
     logging.info("ℹ️ No DB_URL provided. Running in no-database mode.")
 
-# -------------------------------
-# Fetch lost pet record
-# -------------------------------
 def get_lost_pet(pet_id: int):
     if not SessionLocal or not lost_pets_table or not pet_images_table:
         logging.warning("⚠️ Database disabled. get_lost_pet skipped.")
