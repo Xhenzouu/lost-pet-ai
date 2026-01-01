@@ -1,25 +1,17 @@
 # core/config.py
-"""
-Pure configuration module.
-❗ DO NOT import streamlit or call st.* here.
-"""
 
 import os
-from dotenv import load_dotenv
 
-# Load environment variables from .env
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
-# -------------------------------
-# App settings
-# -------------------------------
 PAGE_TITLE = "Lost Pet Reunion Predictor v5"
 PAGE_ICON = "🐕🐈"
 LAYOUT = "centered"
 
-# -------------------------------
-# Barangays in Pila, Laguna
-# -------------------------------
 BARANGAYS = [
     "Aplaya", "Bagong Pook", "Bukal", "Bulilan Norte", "Bulilan Sur",
     "Concepcion", "Labuin", "Linga", "Masico", "Mojon", "Pansol",
@@ -27,9 +19,6 @@ BARANGAYS = [
     "Santa Clara Norte", "Santa Clara Sur", "Tubuan"
 ]
 
-# -------------------------------
-# Pet types
-# -------------------------------
 PET_TYPES = {
     "Dog": "🐕",
     "Cat": "🐈",
@@ -40,9 +29,6 @@ PET_TYPES = {
     "Other": "🐾",
 }
 
-# -------------------------------
-# Prediction bucket colors
-# -------------------------------
 BUCKET_COLORS = {
     0: ("Very recent", "#a8e6cf"),
     1: ("Recent", "#ffd3b6"),
@@ -50,21 +36,11 @@ BUCKET_COLORS = {
     3: ("Long missing", "#ff8b94"),
 }
 
-# -------------------------------
-# Default form values
-# -------------------------------
 DEFAULT_AGE = 0.0
 DEFAULT_DAYS = 1
 DEFAULT_BRG = "Pansol"
 DEFAULT_NEAR_WATER = "No"
 DEFAULT_POSTED_ON_FB = "No"
 
-# -------------------------------
-# Database URL from environment
-# -------------------------------
 DB_URL = os.getenv("DB_URL")
-
-# -------------------------------
-# Admin password
-# -------------------------------
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
