@@ -39,9 +39,12 @@ except Exception as e:
 
 # Cloudinary check
 try:
-    cloudinary.api.ping()
+    # Ensure credentials are set
+    cfg = cloudinary.config()
+    if not all([cfg.cloud_name, cfg.api_key, cfg.api_secret]):
+        raise ValueError("Cloudinary config incomplete")
 except Exception as e:
-    startup_errors.append(f"⚠️ Cloudinary not configured or ping failed: {e}")
+    startup_errors.append(f"⚠️ Cloudinary not configured properly: {e}")
 
 # Model files check
 def model_exists() -> bool:
