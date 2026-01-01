@@ -1,21 +1,35 @@
-import streamlit as st
+# core/config.py
+"""
+Pure configuration module.
+❗ DO NOT import streamlit or call st.* here.
+"""
+
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 # -------------------------------
 # App settings
 # -------------------------------
-PAGE_TITLE = "Lost Pet Reunion Predictor v4"
+PAGE_TITLE = "Lost Pet Reunion Predictor v5"
 PAGE_ICON = "🐕🐈"
 LAYOUT = "centered"
 
+# -------------------------------
 # Barangays in Pila, Laguna
+# -------------------------------
 BARANGAYS = [
-    'Aplaya', 'Bagong Pook', 'Bukal', 'Bulilan Norte', 'Bulilan Sur',
-    'Concepcion', 'Labuin', 'Linga', 'Masico', 'Mojon', 'Pansol',
-    'Pinagbayanan', 'San Antonio', 'San Miguel', 'Santa Clara Norte',
-    'Santa Clara Sur', 'Tubuan'
+    "Aplaya", "Bagong Pook", "Bukal", "Bulilan Norte", "Bulilan Sur",
+    "Concepcion", "Labuin", "Linga", "Masico", "Mojon", "Pansol",
+    "Pinagbayanan", "San Antonio", "San Miguel",
+    "Santa Clara Norte", "Santa Clara Sur", "Tubuan"
 ]
 
-# Pet types with icons
+# -------------------------------
+# Pet types
+# -------------------------------
 PET_TYPES = {
     "Dog": "🐕",
     "Cat": "🐈",
@@ -23,28 +37,34 @@ PET_TYPES = {
     "Bird": "🐦",
     "Turtle": "🐢",
     "Hamster": "🐹",
-    "Other": "🐾"
+    "Other": "🐾",
 }
 
-# Bucket colors for days_missing_bucket
+# -------------------------------
+# Prediction bucket colors
+# -------------------------------
 BUCKET_COLORS = {
     0: ("Very recent", "#a8e6cf"),
     1: ("Recent", "#ffd3b6"),
     2: ("Moderate", "#ffaaa5"),
-    3: ("Long missing", "#ff8b94")
+    3: ("Long missing", "#ff8b94"),
 }
 
+# -------------------------------
 # Default form values
+# -------------------------------
 DEFAULT_AGE = 0.0
 DEFAULT_DAYS = 1
-DEFAULT_BRG = 'Pansol'
+DEFAULT_BRG = "Pansol"
 DEFAULT_NEAR_WATER = "No"
 DEFAULT_POSTED_ON_FB = "No"
 
 # -------------------------------
-# Database URL (Streamlit Secrets)
+# Database URL from environment
 # -------------------------------
-try:
-    DB_URL = st.secrets["postgres"]["DB_URL"]
-except KeyError:
-    DB_URL = None
+DB_URL = os.getenv("DB_URL")
+
+# -------------------------------
+# Admin password
+# -------------------------------
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")

@@ -1,3 +1,5 @@
+# core/db/db.py
+
 from sqlalchemy import create_engine, MetaData, Table, select
 from sqlalchemy.orm import sessionmaker
 import json
@@ -14,7 +16,7 @@ logging.basicConfig(
 )
 
 # -------------------------------
-# Engine & Session (Safe)
+# Engine & Session
 # -------------------------------
 engine = None
 SessionLocal = None
@@ -82,4 +84,4 @@ def get_lost_pet(pet_id: int):
         logging.error(f"Failed to fetch pet ID {pet_id}: {e}")
         return None
     finally:
-        session.close()
+        session.close() 

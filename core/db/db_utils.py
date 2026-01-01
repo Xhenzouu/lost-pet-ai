@@ -4,9 +4,7 @@ from .db import SessionLocal
 import json
 
 def log_prediction(lost_pet_id: int, predicted_status: str, probability: float, days_bucket: int):
-    """
-    Logs a prediction into the predictions table.
-    """
+    """Logs a prediction into the predictions table."""
     session = SessionLocal()
     try:
         query = """
@@ -40,9 +38,7 @@ def log_prediction(lost_pet_id: int, predicted_status: str, probability: float, 
 
 
 def insert_pet_embedding(lost_pet_id: int, image_path: str, embedding: list):
-    """
-    Inserts a pet image embedding into the pet_images table.
-    """
+    """Inserts a pet image embedding into the pet_images table."""
     session = SessionLocal()
     try:
         query = """
