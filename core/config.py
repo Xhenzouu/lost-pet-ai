@@ -1,20 +1,70 @@
 # core/config.py
-import streamlit as st
+import os
 import cloudinary
+from dotenv import load_dotenv
+
+# -------------------------------
+# Load local .env
+# -------------------------------
+load_dotenv()
 
 PAGE_TITLE = "Lost Pet Reunion Predictor v5"
 PAGE_ICON = "🐕🐈"
 LAYOUT = "centered"
 
-ADMIN_PASSWORD = st.secrets["auth"]["ADMIN_PASSWORD"]
-DB_URL = st.secrets["postgres"]["DB_URL"]
+# -------------------------------
+# Admin password
+# -------------------------------
+if os.getenv("STREAMLIT_ENV") == "production":
+    # Use secrets if deployed on Streamlit Cloud
+    import streamlit as st
+    try:
+        ADMIN_PASSWORD = st.secrets["auth"]["ADMIN_PASSWORD"]
+    except Exception:
+        ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "no_access_can_do")
+else:
+    ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "no_access_can_do")
+
+# -------------------------------
+# Database URL
+# -------------------------------
+DB_ENV = os.getenv("DB_ENV", "local").lower()  # "local" or "prod"
+if DB_ENV == "prod":
+    try:
+        import streamlit as st
+        DB_URL = st.secrets["postgres"]["DB_URL"]
+    except Exception:
+        DB_URL = os.getenv("DB_URL_PROD")
+else:
+    DB_URL = os.getenv("DB_URL_LOCAL")
+
+# -------------------------------
+# Cloudinary
+# -------------------------------
+if os.getenv("STREAMLIT_ENV") == "production":
+    import streamlit as st
+    try:
+        cloud_name = st.secrets["cloudinary"]["CLOUDINARY_CLOUD_NAME"]
+        api_key = st.secrets["cloudinary"]["CLOUDINARY_API_KEY"]
+        api_secret = st.secrets["cloudinary"]["CLOUDINARY_API_SECRET"]
+    except Exception:
+        cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME")
+        api_key = os.getenv("CLOUDINARY_API_KEY")
+        api_secret = os.getenv("CLOUDINARY_API_SECRET")
+else:
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME")
+    api_key = os.getenv("CLOUDINARY_API_KEY")
+    api_secret = os.getenv("CLOUDINARY_API_SECRET")
 
 cloudinary.config(
-    cloud_name=st.secrets["cloudinary"]["CLOUDINARY_CLOUD_NAME"],
-    api_key=st.secrets["cloudinary"]["CLOUDINARY_API_KEY"],
-    api_secret=st.secrets["cloudinary"]["CLOUDINARY_API_SECRET"]
+    cloud_name=cloud_name,
+    api_key=api_key,
+    api_secret=api_secret
 )
 
+# -------------------------------
+# Barangays
+# -------------------------------
 BARANGAYS = [
     "Aplaya", "Bagong Pook", "Bukal", "Bulilan Norte", "Bulilan Sur",
     "Concepcion", "Labuin", "Linga", "Masico", "Mojon", "Pansol",
@@ -22,6 +72,9 @@ BARANGAYS = [
     "Santa Clara Norte", "Santa Clara Sur", "Tubuan"
 ]
 
+# -------------------------------
+# Pet types
+# -------------------------------
 PET_TYPES = {
     "Dog": "🐕",
     "Cat": "🐈",
@@ -32,6 +85,9 @@ PET_TYPES = {
     "Other": "🐾",
 }
 
+# -------------------------------
+# Bucket colors
+# -------------------------------
 BUCKET_COLORS = {
     0: ("Very recent", "#a8e6cf"),
     1: ("Recent", "#ffd3b6"),
@@ -39,6 +95,9 @@ BUCKET_COLORS = {
     3: ("Long missing", "#ff8b94"),
 }
 
+# -------------------------------
+# Defaults
+# -------------------------------
 DEFAULT_AGE = 0.0
 DEFAULT_DAYS = 1
 DEFAULT_BRG = "Pansol"

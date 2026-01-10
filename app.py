@@ -1,20 +1,42 @@
 # app.py
 import streamlit as st
-from pathlib import Path
+
+# -------------------------
+# Page Config (must be first Streamlit call)
+# -------------------------
+st.set_page_config(
+    page_title="🐕🐈 Lost Pet Reunion Predictor v5",
+    page_icon="🐕🐈",
+    layout="centered"
+)
+
+# -------------------------
+# Load local .env if present
+# -------------------------
+import os
+import traceback
+import sqlalchemy
+import cloudinary
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ModuleNotFoundError:
+    st.warning("⚠️ python-dotenv not installed, skipping local .env load.")
+
+# -------------------------
+# Config imports
+# -------------------------
 from core.config import PAGE_TITLE, PAGE_ICON, LAYOUT, ADMIN_PASSWORD, DB_URL
 from core.controllers.app_controller import AppController
 from core.views.app_view import AppView
 from core.views.dashboard_view import DashboardView
 from core.db.db import engine
-import cloudinary
-import traceback
-import sqlalchemy
+from pathlib import Path
 
 # -------------------------
-# Page Config
+# App Header
 # -------------------------
-st.set_page_config(page_title=PAGE_TITLE, page_icon=PAGE_ICON, layout=LAYOUT)
-
 st.title("🐕🐈 Lost Pet Reunion Predictor — Pila, Laguna v5 🐇🐦🐢")
 st.markdown("""
 **Works for ANY pet: dogs, cats, rabbits, birds, hamsters, etc.!**  
@@ -27,7 +49,7 @@ Pila has ~57,776 people across 17 barangays — community power! 🐾
 # -------------------------
 startup_errors = []
 
-# DB check
+# Database check
 try:
     if not DB_URL or not engine:
         startup_errors.append("⚠️ Database not configured. DB_URL missing or engine not initialized.")
@@ -47,12 +69,13 @@ except Exception as e:
 
 # Model files check
 def model_exists() -> bool:
-    root = Path(__file__).resolve().parent
-    pkl = root / "pkl"
-    return (pkl / "lost_pet_model_v5.pkl").exists() and (pkl / "le_barangay.pkl").exists()
+    root = Path(__file__).resolve().parent / "pkl"
+    return (root / "lost_pet_model_v5.pkl").exists() and (root / "le_barangay.pkl").exists()
 
 if not model_exists():
-    startup_errors.append("⚠️ Model files missing in `/pkl`:\n- lost_pet_model_v5.pkl\n- le_barangay.pkl")
+    startup_errors.append(
+        "⚠️ Model files missing in `/pkl`:\n- lost_pet_model_v5.pkl\n- le_barangay.pkl"
+    )
 
 # Show startup errors
 if startup_errors:
@@ -85,7 +108,7 @@ else:
     password_input = st.sidebar.text_input("Enter admin password", type="password")
 
     if not ADMIN_PASSWORD:
-        st.error("❌ ADMIN_PASSWORD not set in secrets.")
+        st.error("❌ ADMIN_PASSWORD not set in secrets or .env.")
     elif password_input == ADMIN_PASSWORD:
         st.success("✅ Admin access granted")
         st.info("⚠️ Dashboard shows a subset of training data. Use responsibly.")

@@ -1,31 +1,12 @@
-# -------------------------------
-# Streamlit
-# -------------------------------
 streamlit==1.30.0
-
-# -------------------------------
-# Core numeric stack (Python 3.13 + Streamlit 1.30)
-# -------------------------------
 numpy>=1.26.4,<2.0
 pandas>=2.2.3
 pyarrow>=15.0.0
-
-# -------------------------------
-# ML
-# -------------------------------
 scikit-learn>=1.4.2
 joblib>=1.4.2
-
-# -------------------------------
-# Visualization
-# -------------------------------
 altair>=5.5.0
 pydeck>=0.9.1
 Pillow>=10.0.0
-
-# -------------------------------
-# Utilities (Streamlit-compatible)
-# -------------------------------
 protobuf>=3.20,<5
 cachetools>=5.3.3
 tenacity>=8.3.0
@@ -44,3 +25,8 @@ blinker>=1.9.0
 typing-extensions>=4.15.0
 psycopg2-binary>=2.9.9
 cloudinary>=1.44.1
+ultralytics>=8.3.0
+transformers>=4.45.0
+torch>=2.0.0,<2.6.0
+torchvision>=0.15.0
+tqdm>=4.66.0

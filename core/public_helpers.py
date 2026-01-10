@@ -1,8 +1,5 @@
 from typing import Dict, Any
 
-# ------------------------------------------
-# Public Helper: interpret probability
-# ------------------------------------------
 def interpret_probability(prob: float) -> str:
     if prob is None:
         return "Unknown"
@@ -13,24 +10,12 @@ def interpret_probability(prob: float) -> str:
     else:
         return "High chance"
 
-
-# ------------------------------------------
-# Public Helper: generate reason explanations
-# ------------------------------------------
 def generate_reasons(input_data: Dict[str, Any]) -> list:
     reasons = []
-
     days_bucket = input_data.get("days_bucket")
-    posted_on_fb = input_data.get("posted_on_fb")
-    near_water = input_data.get("near_water")
+    posted_on_fb = int(input_data.get("posted_on_fb", 0))
+    near_water = int(input_data.get("near_water", 0))
 
-    # Convert booleans to integers if needed
-    if isinstance(posted_on_fb, bool):
-        posted_on_fb = int(posted_on_fb)
-    if isinstance(near_water, bool):
-        near_water = int(near_water)
-
-    # Days missing
     if days_bucket is not None:
         if days_bucket == 0:
             reasons.append("Your pet was lost very recently.")
@@ -41,72 +26,50 @@ def generate_reasons(input_data: Dict[str, Any]) -> list:
         else:
             reasons.append("Your pet has been missing for a long time.")
 
-    # Facebook post
-    if posted_on_fb == 1:
-        reasons.append("The pet has been posted on Facebook groups.")
-    else:
-        reasons.append("The pet has not been posted on Facebook yet.")
+    reasons.append(
+        "The pet has been posted on Facebook groups."
+        if posted_on_fb == 1 else
+        "The pet has not been posted on Facebook yet."
+    )
 
-    # Near water
     if near_water == 1:
         reasons.append("The pet may be near water, which can affect recovery.")
 
     return reasons
 
-
-# ------------------------------------------
-# Public Helper: action recommendations
-# ------------------------------------------
 def generate_actions(input_data: Dict[str, Any], barangay: str) -> list:
     actions = []
-
-    posted_on_fb = input_data.get("posted_on_fb")
+    posted_on_fb = int(input_data.get("posted_on_fb", 0))
     image_count = input_data.get("image_count", 0)
 
-    # Convert booleans to integers if needed
-    if isinstance(posted_on_fb, bool):
-        posted_on_fb = int(posted_on_fb)
-
-    # Facebook posting
     if posted_on_fb != 1:
         actions.append("Post your pet in Pila Lost & Found Pets Facebook groups today.")
-
-    # Barangay-specific
     if barangay:
         actions.append(f"Visit your Barangay Hall ({barangay}) to report the lost pet.")
-
-    # Images: only suggest adding photos if none uploaded
     if image_count == 0:
         actions.append("Add clear photos of your pet for better recognition.")
     elif image_count > 0:
         actions.append("Ensure the photos of your pet are clear and recent.")
 
-    # Safety disclaimer
     actions.append("Remember: These are recommendations and do not guarantee reunion.")
-
     return actions
 
-
-# ------------------------------------------
-# Public Helper: full interpretation
-# ------------------------------------------
 def interpret_prediction(prediction: Dict[str, Any], barangay: str) -> Dict[str, Any]:
-    probability = prediction.get("probability", 0.0)  # fallback to 0.0
-    days_bucket = prediction.get("days_bucket")
-    posted_on_fb = prediction.get("posted_on_fb")
-    near_water = prediction.get("near_water")
-    image_count = prediction.get("image_count", 0)
+    probability = prediction.get("public_prob", prediction.get("probability", 0.0))
+    probability = max(0.0, min(probability, 1.0))
 
     input_data = {
-        "days_bucket": days_bucket,
-        "posted_on_fb": posted_on_fb,
-        "near_water": near_water,
-        "image_count": image_count
+        "days_bucket": prediction.get("days_bucket"),
+        "posted_on_fb": prediction.get("posted_on_fb"),
+        "near_water": prediction.get("near_water"),
+        "image_count": prediction.get("image_count", 0)
     }
+
+    probability_str = f"{probability*100:.1f}%"
 
     return {
         "band": interpret_probability(probability),
-        "probability": f"{probability:.1%}",  # always format as percent
+        "probability": probability_str,
         "reasons": generate_reasons(input_data),
         "actions": generate_actions(input_data, barangay)
     }

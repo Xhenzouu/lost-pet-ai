@@ -8,7 +8,7 @@ Designed for real-world public use, this system prioritizes:
 - 👥 Simplicity and clarity for non-technical users
 - 🔮 Extensibility for future AI upgrades (vision + similarity search)
 
-Current production version: **v5 (Public Release)**
+**Current production version:** v6 (Deep Vision Upgrade – Jan 2026)
 
 🔗 **Live Demo:**  
 https://lost-pet-ai.streamlit.app/
@@ -30,20 +30,21 @@ This app helps pet owners:
 
 ## 🔢 Model Versions Summary
 
-| Version | Accuracy | Recall (Found) | Notes |
-|--------|---------|----------------|------|
-| v3     | 75.2%   | 83.2%          | Some false negatives |
-| v4     | 100%    | 100%           | Added days_missing_bucket, logging, helper scripts |
-| v5     | Public-focused | High recall | Image embeddings, similarity metrics, public explanations |
+| Version | Status                  | Key Features & Notes |
+|---------|-------------------------|----------------------|
+| v3      | Legacy                  | Initial RandomForest, some false negatives |
+| v4      | Legacy                  | Added days_missing_bucket, logging, helpers |
+| v5      | Public Release          | Color histogram embeddings (512-dim), public explanations |
+| **v6**  | **Current – Deep Vision** | **YOLO11** pet detection + cropping + **DINOv2-small** embeddings (384-dim), FAISS cosine similarity, migration scripts |
 
 ⚠️ **Important:** Metrics are based on synthetic / limited data. Real-world data collection is ongoing.
 
 ---
 
-## 🧠 Core Prediction Model (v5)
+## 🧠 Core Prediction Model (v6)
 
 **Model Type:** RandomForestClassifier  
-**Input Type:** Tabular data (6 features)
+**Input Type:** Tabular data (6 features) + optional image similarity signals
 
 ### Features Used
 
@@ -54,125 +55,65 @@ This app helps pet owners:
 - Near Laguna de Bay / water area  
 - Posted on Facebook or local groups (**strongest predictor**)
 
----
-
-## 🧩 Why Pet Name Is Not Required for Prediction
-
-The AI model does **not** require a pet name to generate predictions.  
-This is intentional and follows machine learning best practices:
-
-- The model predicts **outcomes**, not identities  
-- Pet names are **non-causal identifiers** (e.g., “Ginger”, “Ming-ming”)  
-- Names provide no statistical signal for recovery likelihood  
-- Including names would add noise and reduce generalization  
-
-### Where pet names *are* used
-
-Pet names are optional metadata and are only used for:
-
-- Image-to-record association  
-- Human-readable logs and dashboards  
-- Migration and admin tooling
+Image similarity now feeds into future hybrid models (not yet affecting tabular prediction directly).
 
 ---
 
-## Why Pet Type Is Not Used
-
-Pet type was intentionally removed to make the model:
-
-- Universal (dogs, cats, birds, rabbits, etc.)  
-- Less biased by assumptions  
-- More robust with small datasets
-
----
-
-## days_missing_bucket (Key Innovation)
-
-Instead of relying on raw days alone, days missing are bucketed:
-
-| Bucket | Days Missing |
-|--------|-------------|
-| 0      | 1–3 days    |
-| 1      | 4–7 days    |
-| 2      | 8–14 days   |
-| 3      | 15+ days    |
-
-This captures non-linear recovery behavior and significantly improves recall.
-
----
-
-## 🖼️ Image Uploads & Embeddings (v5)
+## 🖼️ Image Uploads & Embeddings (v6 – Major Upgrade)
 
 **What happens when users upload images?**
 
-1. Images are saved to disk (`/uploads`)  
-2. A **512-dimensional color histogram embedding** is computed  
-3. Embeddings are stored in PostgreSQL (`pet_images.embedding`)  
-4. Images are safely archived in `uploads/processed/`  
-5. Embeddings are used for similarity scoring, not prediction (yet)
+1. Images uploaded via Streamlit  
+2. **YOLO11n** (Ultralytics) detects & crops pet (cat/dog classes, fallback to full image)  
+3. **DINOv2-small** (facebook/dinov2-small) computes **384-dimensional** normalized embedding (CLS token)  
+4. Original image uploaded to Cloudinary  
+5. New embedding stored in PostgreSQL (`pet_images.embedding` as JSONB)  
+6. Embeddings used for cosine similarity search via **FAISS** (`IndexFlatIP`)
+
+**Migration completed:** 10/14 legacy images upgraded from old 512-dim histograms to new 384-dim DINOv2 (Jan 10, 2026)
 
 ---
 
-## 🔍 Image Similarity (v5)
+## 🔍 Image Similarity (v6)
 
-- Cosine similarity is computed between uploaded images and existing pet images  
-- The maximum similarity score is exposed internally  
-- Used for:
-  - Explaining confidence  
-  - Future matching / “similar-looking pet” features  
+- Cosine similarity computed between new/found pet images and existing lost pets  
+- Top-k matches returned (currently internal, ready for "Found Pet" feature)  
+- Uses normalized vectors + **IndexFlatIP** for fast, accurate search
 
-⚠️ **Image embeddings do NOT directly affect the RandomForest prediction.**
-
-This separation ensures:
-
-- Model stability  
-- Explainability  
-- Future-proof architecture
+**Image embeddings do NOT yet affect the RandomForest prediction** (kept separate for stability/explainability).
 
 ---
 
-## 🧪 Embedding Method (Python 3.12 Safe)
+## 🧪 Embedding Method (Python 3.12/3.13 Safe)
 
-- No TensorFlow / PyTorch required  
-- No GPU required  
-- Deterministic & fast  
-- Explainable (RGB histogram)
-
-Current method can later be swapped with:
-
-- CLIP  
-- MobileNet / EfficientNet  
-- Custom CNN  
-
-> No database changes required.
+- **Detection:** Ultralytics YOLO11n (lightweight, CPU-friendly)  
+- **Embedding:** Hugging Face DINOv2-small (no GPU required for inference)  
+- Deterministic, normalized outputs  
+- Explainable fallback to full image if no pet detected
 
 ---
 
 ## 🧰 Embedding Migration Scripts
 
-To support legacy data, v5 introduces migration utilities:
+To support legacy data during the v5 → v6 transition:
 
-- **migrate_csv_to_db.py**  
-  Imports historical CSV data into PostgreSQL  
+- **migrate_embeddings_to_dinov2.py**  
+  One-time script: Recomputes all embeddings using YOLO11 + DINOv2-small  
+  (Completed Jan 10, 2026: 10/14 images upgraded)
 
-- **migrate_embeddings_flexible.py**    
-  Matches images to pets by name  
-  Auto-fills missing `pet_name` values (`Pet-<id>`)  
-  Computes embeddings  
-  Prevents duplicate processing  
-  Safe to rerun (idempotent)
+Other utilities:
+- **migrate_csv_to_db.py** — Historical CSV import
+- **migrate_embeddings_flexible.py** — Legacy name-based matching
 
 ---
 
 📋 Database Schema Reference
 
-For developer reference, see `core/db/schemas.py` for detailed table and field documentation:
+See `core/db/schemas.py` for details:
 
-- `lost_pets` — stores pet metadata
-- `pet_images` — stores uploaded images and embeddings
-- `predictions` — stores model prediction results
-
-This file includes notes on required vs optional fields and explains which fields are used by the v5 model.
+- `lost_pets` — pet metadata
+- `pet_images` — images + 384-dim embeddings (JSONB)
+- `predictions` — model outputs
 
 ---
 
@@ -182,101 +123,66 @@ This file includes notes on required vs optional fields and explains which field
 ↓  
 App Controller  
 ↓  
-RandomForest (tabular prediction)  
-↓  
-Probability + Public-Friendly Advice  
+RandomForest (tabular prediction) + Probability Advice  
 
 **Images**  
 ↓  
-Embeddings (stored in DB)  
+YOLO11 detection → crop → DINOv2 embedding  
 ↓  
-Similarity scoring (v5)  
+FAISS vector index → cosine similarity search  
 ↓  
-Future vision models
+Future: "Found Pet" matching alerts
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack (Updated Jan 2026)
 
-- Python 3.12  
+- Python 3.12 / 3.13  
 - Streamlit  
-- Scikit-learn  
-- PostgreSQL  
-- SQLAlchemy  
-- Pillow  
-- NumPy  
-- Joblib
+- Scikit-learn + Joblib  
+- PostgreSQL + SQLAlchemy + psycopg2  
+- **Ultralytics YOLO11** (pet detection)  
+- **Hugging Face Transformers** + **Torch** (DINOv2 embeddings)  
+- **FAISS** (vector similarity)  
+- Pillow + NumPy  
+- Cloudinary (image storage)
 
 ---
 
 ## ☁️ Cloud Database
 
-This app is already configured to connect to a **PostgreSQL database hosted on Railway**.  
-DB credentials are managed via Streamlit secrets (`st.secrets`) and are used automatically at runtime.  
-No local database setup is required unless you want to run it entirely offline.
+Hosted on **Railway**.  
+Credentials via Streamlit secrets.  
+No local DB needed for running.
 
 ---
 
 ## ▶️ Running Locally
 
-1. **Clone the repository**
+1. Clone repo  
+2. `cd lost-pet-ai`  
+3. Activate venv: `.\venv\Scripts\activate` (Windows)  
+4. `pip install -r requirements.txt`  
+5. Ensure pkl files exist  
+6. `streamlit run app.py`
 
-```bash
-git clone https://github.com/your-username/lost-pet-ai.git
-cd lost-pet-ai
+---
 
-2. Clone the repository
+## 🚀 Future Roadmap
 
-pip install -r requirements.txt
-
-3. Ensure model files exist
-
-pkl/
-├─ lost_pet_model_v5.pkl
-├─ le_barangay.pkl
-
-4. Run the app
-
-streamlit run app.py
-
-🧪 Testing Without Streamlit
-
-python -m core.predict
-
-Returns:
-
-pet_id
-pet_name
-probability
-days_bucket
-embeddings_count
-max_similarity
-result_text
-
-📊 Admin Dashboard
-
-Admin-only features include:
-
-Prediction history
-Barangay trends
-Recovery statistics
-Image similarity inspection
-
-⚠️ Dashboard data represents training / demo data only.
-
-🚀 Future Roadmap
-🔍 Visual similarity search (find matching pets)
-🧠 Hybrid tabular + vision models
-⚡ FAISS vector indexing
-📊 Real community & Facebook signal ingestion
-🌐 Expansion beyond Pila, Laguna
+- ✅ **Deep visual embeddings** (DINOv2-small + YOLO11 detection)  
+- ✅ **FAISS cosine similarity** (384-dim index)  
+- 🔜 **Found Pet Report** page → upload photo → show matching lost pets  
+- 🔜 Hybrid model (tabular + vision similarity features)  
+- 🔜 Real-time alerts (email/Telegram for high-similarity matches)  
+- 🔜 Real community & Facebook signal ingestion  
+- 🌐 Expansion beyond Pila, Laguna
 
 🤝 Contributing
 
-Pull requests are welcome.
+Pull requests welcome!
 
 Please:
-
-❌ Do not commit large .pkl files
-🔒 Respect data privacy
-🚫 Avoid uploading real owner-identifying data
+- ❌ Do not commit large .pkl files  
+- 🔒 Respect data privacy  
+- 🚫 Avoid real owner-identifying data

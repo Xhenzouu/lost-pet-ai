@@ -35,7 +35,7 @@ else:
     logging.info("ℹ️ No DB_URL provided. Running in no-database mode.")
 
 def get_lost_pet(pet_id: int):
-    if not SessionLocal or not lost_pets_table or not pet_images_table:
+    if SessionLocal is None or lost_pets_table is None or pet_images_table is None:
         logging.warning("⚠️ Database disabled. get_lost_pet skipped.")
         return None
 
