@@ -1,15 +1,36 @@
-# Model and data files
-pkl/
-csv/
-
-# Python cache
 __pycache__/
 *.pyc
-
-# Environment / config
+*.pyo
+*.pyd
+.Python
 venv/
+.env
+.env.*
+!.env.example
 
-# Temporary or generated files
+pkl/
+csv/
+*.pkl
+*.joblib
+*.h5
+*.pth
+
 uploads/
 uploads/processed/
+tmp/
+temp/
+*.log
+*.tmp
+
+.streamlit/secrets.toml
+!.streamlit/config.toml
+
 helpers/
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+scripts/
