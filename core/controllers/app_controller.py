@@ -52,7 +52,7 @@ class AppController:
                     if idx != -1
                 ]
             except Exception as faiss_err:
-                print(f"FAISS similarity search failed: {faiss_err}")  # or logger
+                print(f"FAISS similarity search failed: {faiss_err}")
                 similar_pets = []
 
         try:

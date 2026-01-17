@@ -32,7 +32,6 @@ data = {
 
 df = pd.DataFrame(data)
 
-# Strong realistic patterns
 df.loc[df['days_missing'] < 7, 'found'] = 1
 df.loc[df['days_missing'] > 30, 'found'] = 0
 df.loc[df['posted_on_fb'] == True, 'found'] = np.random.choice([1, 0], size=len(df[df['posted_on_fb']]), p=[0.85, 0.15])  # Big boost
@@ -41,7 +40,6 @@ df.loc[purebred_mask, 'found'] = np.random.choice([1, 0], size=purebred_mask.sum
 
 df.to_csv('lost_pets_pila_dataset.csv', index=False)
 
-# Preprocess
 le_pet = LabelEncoder()
 le_barangay = LabelEncoder()
 

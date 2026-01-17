@@ -27,7 +27,6 @@ class FoundPetController:
         if not embeddings:
             return {"error": "Couldn't process any photos. Try clearer images."}
 
-        # Use first embedding for MVP search
         query_emb = embeddings[0]
         try:
             LostPetModel._load_faiss_index()
@@ -40,7 +39,6 @@ class FoundPetController:
                     if idx == -1:
                         continue
 
-                    # Fetch lost pet details + ALL images
                     query = text("""
                         SELECT 
                             lp.pet_type, lp.age_years, lp.days_missing, lp.barangay,
@@ -53,13 +51,11 @@ class FoundPetController:
                     rows = session.execute(query).fetchall()
 
                     if rows:
-                        # Basic info from first row
                         pet_type = rows[0][0] or 'Unknown'
                         age = rows[0][1] or 'Unknown'
                         days_missing = rows[0][2]
                         barangay = rows[0][3]
 
-                        # Collect all image URLs
                         image_paths = [row[4] for row in rows if row[4]]
 
                         matches.append({
@@ -69,7 +65,7 @@ class FoundPetController:
                             "age": age,
                             "days_missing": days_missing,
                             "barangay": barangay,
-                            "image_paths": image_paths  # List of all photos
+                            "image_paths": image_paths
                         })
 
             finally:

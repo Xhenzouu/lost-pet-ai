@@ -1,22 +1,14 @@
-# core/config.py
 import os
 import cloudinary
 from dotenv import load_dotenv
 
-# -------------------------------
-# Load local .env
-# -------------------------------
 load_dotenv()
 
 PAGE_TITLE = "Lost Pet Reunion Predictor v5"
 PAGE_ICON = "🐕🐈"
 LAYOUT = "centered"
 
-# -------------------------------
-# Admin password
-# -------------------------------
 if os.getenv("STREAMLIT_ENV") == "production":
-    # Use secrets if deployed on Streamlit Cloud
     import streamlit as st
     try:
         ADMIN_PASSWORD = st.secrets["auth"]["ADMIN_PASSWORD"]
@@ -25,10 +17,7 @@ if os.getenv("STREAMLIT_ENV") == "production":
 else:
     ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "no_access_can_do")
 
-# -------------------------------
-# Database URL
-# -------------------------------
-DB_ENV = os.getenv("DB_ENV", "local").lower()  # "local" or "prod"
+DB_ENV = os.getenv("DB_ENV", "local").lower()
 if DB_ENV == "prod":
     try:
         import streamlit as st
@@ -38,9 +27,6 @@ if DB_ENV == "prod":
 else:
     DB_URL = os.getenv("DB_URL_LOCAL")
 
-# -------------------------------
-# Cloudinary
-# -------------------------------
 if os.getenv("STREAMLIT_ENV") == "production":
     import streamlit as st
     try:
@@ -62,9 +48,6 @@ cloudinary.config(
     api_secret=api_secret
 )
 
-# -------------------------------
-# Barangays
-# -------------------------------
 BARANGAYS = [
     "Aplaya", "Bagong Pook", "Bukal", "Bulilan Norte", "Bulilan Sur",
     "Concepcion", "Labuin", "Linga", "Masico", "Mojon", "Pansol",
@@ -72,9 +55,6 @@ BARANGAYS = [
     "Santa Clara Norte", "Santa Clara Sur", "Tubuan"
 ]
 
-# -------------------------------
-# Pet types
-# -------------------------------
 PET_TYPES = {
     "Dog": "🐕",
     "Cat": "🐈",
@@ -85,9 +65,6 @@ PET_TYPES = {
     "Other": "🐾",
 }
 
-# -------------------------------
-# Bucket colors
-# -------------------------------
 BUCKET_COLORS = {
     0: ("Very recent", "#a8e6cf"),
     1: ("Recent", "#ffd3b6"),
@@ -95,9 +72,6 @@ BUCKET_COLORS = {
     3: ("Long missing", "#ff8b94"),
 }
 
-# -------------------------------
-# Defaults
-# -------------------------------
 DEFAULT_AGE = 0.0
 DEFAULT_DAYS = 1
 DEFAULT_BRG = "Pansol"

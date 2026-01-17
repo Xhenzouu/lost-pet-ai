@@ -1,7 +1,6 @@
 import pandas as pd
 import joblib
 
-# Load dataset for display
 print("Loading Pila lost pets dataset...\n")
 df = pd.read_csv('lost_pets_pila_dataset.csv')
 
@@ -10,12 +9,10 @@ print(df.head(10))
 print("\nFound distribution:")
 print(df['found'].value_counts(normalize=True))
 
-# Load pre-trained model and barangay encoder (no pet encoder anymore)
 print("\nLoading pre-trained model (works for ANY pet)...")
 model = joblib.load('lost_pet_model.pkl')
 le_barangay = joblib.load('le_barangay.pkl')
 
-# Complete 17 barangays of Pila, Laguna (2025)
 barangays = [
     'Aplaya', 'Bagong Pook', 'Bukal', 'Bulilan Norte', 'Bulilan Sur',
     'Concepcion', 'Labuin', 'Linga', 'Masico', 'Mojon', 'Pansol',
@@ -23,14 +20,11 @@ barangays = [
     'Santa Clara Sur', 'Tubuan'
 ]
 
-# Features — no pet_type!
 features = ['age_years', 'days_missing', 'near_water', 'posted_on_fb', 'barangay_encoded']
 
 print("Model ready for predictions!\n")
 
-# Prediction function — no pet input needed
 def predict_reunion(age_years, days_missing, barangay_input, near_water, posted_on_fb):
-    # Flexible barangay matching
     barangay_lower = barangay_input.strip().lower()
     matches = [b for b in barangays if barangay_lower in b.lower()]
     if not matches:
@@ -39,7 +33,6 @@ def predict_reunion(age_years, days_missing, barangay_input, near_water, posted_
 
     barangay_encoded = le_barangay.transform([barangay])[0]
 
-    # Predict
     input_df = pd.DataFrame([[age_years, days_missing, near_water, posted_on_fb, barangay_encoded]],
                             columns=features)
     
@@ -47,7 +40,6 @@ def predict_reunion(age_years, days_missing, barangay_input, near_water, posted_
     status = "Likely Found" if prob > 0.5 else "Unlikely Found"
     return f"Probability of being found: {prob:.1%} → {status}"
 
-# Header — now truly for any pet
 print("="*85)
 print("     LOST ANY PET REUNION PREDICTOR FOR PILA, LAGUNA v3 🐕🐈🐇🐦🐢")
 print("     Works for dogs, cats, rabbits, birds, hamsters — any pet!")
@@ -55,13 +47,11 @@ print("     Biggest factor: Posting on Facebook = much higher chance!")
 print("     Population ~57,776 | 17 Barangays | Community-focused")
 print("="*85)
 
-# Example with a rabbit
 print("\nExample (for a rabbit):")
 ex_result = predict_reunion(1.5, 3, 'Pansol', True, True)
 print("→ 1.5-year-old rabbit, missing 3 days in Pansol, near water, POSTED ON FB")
 print(f"   ✅ {ex_result}\n")
 
-# Interactive loop — simplified, no pet type question
 while True:
     print("Enter your lost pet details (or type 'quit' to exit):")
     
@@ -99,7 +89,6 @@ while True:
             
         print(f"\n✅ {result}")
 
-        # Personalized advice
         if "Likely" in result:
             print("   🎉 Good chance of reunion!")
             if posted_on_fb:

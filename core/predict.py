@@ -1,5 +1,3 @@
-# core/predict.py
-
 import sys
 import logging
 import numpy as np
@@ -8,9 +6,6 @@ from .model import load_model_artifacts, predict_reunion
 from .models.lost_pet_model import LostPetModel
 from numpy.linalg import norm
 
-# -------------------------------
-# Configure logging (UTF-8 safe)
-# -------------------------------
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -66,7 +61,6 @@ def predict_pet_reunion(pet_id: int, use_v5: bool = True):
             logging.error(msg)
             return {"error": msg}
 
-    # Load v5 RandomForest model + LabelEncoder
     model, le_barangay = load_model_artifacts(v5=use_v5)
 
     try:
@@ -81,7 +75,6 @@ def predict_pet_reunion(pet_id: int, use_v5: bool = True):
             embeddings=pet.get("embeddings", [])
         )
 
-        # Compute embedding similarity
         max_similarity = compute_max_similarity(pet.get("embeddings", []))
         if max_similarity is not None:
             prediction["max_similarity"] = max_similarity
@@ -93,7 +86,6 @@ def predict_pet_reunion(pet_id: int, use_v5: bool = True):
         logging.error(msg)
         return {"error": msg}
 
-    # Flatten final dict for Streamlit / interpret_prediction
     result = {
         "pet_id": pet_id,
         "pet_name": pet["pet_name"],
@@ -102,9 +94,6 @@ def predict_pet_reunion(pet_id: int, use_v5: bool = True):
     }
     return result
 
-# -------------------------------
-# Example usage
-# -------------------------------
 if __name__ == "__main__":
     pet_id = 1
     result = predict_pet_reunion(pet_id)

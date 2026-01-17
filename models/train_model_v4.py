@@ -1,9 +1,6 @@
 import sys
 from pathlib import Path
 
-# -------------------------------------------------
-# Ensure project root is on Python path
-# -------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))
 
@@ -15,15 +12,9 @@ from sklearn.preprocessing import LabelEncoder
 
 from core import SessionLocal
 
-# -------------------------------------------------
-# Output directory
-# -------------------------------------------------
 PKL_DIR = BASE_DIR / "pkl"
 PKL_DIR.mkdir(exist_ok=True)
 
-# -------------------------------------------------
-# Feature engineering
-# -------------------------------------------------
 def bucket_days(days):
     if days <= 3:
         return 0
@@ -34,9 +25,6 @@ def bucket_days(days):
     else:
         return 3
 
-# -------------------------------------------------
-# Load data from PostgreSQL
-# -------------------------------------------------
 print("📥 Loading training data from PostgreSQL...")
 
 session = SessionLocal()
@@ -61,18 +49,11 @@ if df.empty:
 
 print(f"✅ Loaded {len(df)} rows")
 
-# -------------------------------------------------
-# Feature engineering
-# -------------------------------------------------
 df["days_missing_bucket"] = df["days_missing"].apply(bucket_days)
 
-# Encode barangay
 le_barangay = LabelEncoder()
 df["barangay_encoded"] = le_barangay.fit_transform(df["barangay"])
 
-# -------------------------------------------------
-# Model features
-# -------------------------------------------------
 features = [
     "age_years",
     "days_missing",
@@ -85,9 +66,6 @@ features = [
 X = df[features]
 y = df["found"]
 
-# -------------------------------------------------
-# Train model
-# -------------------------------------------------
 print("🧠 Training RandomForest model...")
 
 model = RandomForestClassifier(
@@ -98,9 +76,6 @@ model = RandomForestClassifier(
 
 model.fit(X, y)
 
-# -------------------------------------------------
-# Save artifacts
-# -------------------------------------------------
 joblib.dump(model, PKL_DIR / "lost_pet_model_v4.pkl")
 joblib.dump(le_barangay, PKL_DIR / "le_barangay.pkl")
 

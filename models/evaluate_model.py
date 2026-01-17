@@ -3,7 +3,6 @@ import joblib
 from pathlib import Path
 from sklearn.metrics import classification_report, confusion_matrix
 
-# Project directories
 BASE_DIR = Path(__file__).resolve().parent.parent
 PKL_DIR = BASE_DIR / "pkl"
 
@@ -14,10 +13,8 @@ print("Loading model and encoder...")
 model = joblib.load(PKL_DIR / "lost_pet_model_v4.pkl")
 le_barangay = joblib.load(PKL_DIR / "le_barangay.pkl")
 
-# Encode barangay
 df["barangay_encoded"] = le_barangay.transform(df["barangay"])
 
-# Feature engineering: days_missing_bucket
 def bucket_days(days):
     if days <= 3:
         return 0
@@ -30,7 +27,6 @@ def bucket_days(days):
 
 df["days_missing_bucket"] = df["days_missing"].apply(bucket_days)
 
-# Features
 features = [
     "age_years",
     "days_missing",

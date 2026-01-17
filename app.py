@@ -1,18 +1,11 @@
-# app.py
 import streamlit as st
 
-# -------------------------
-# Page Config (must be first Streamlit call)
-# -------------------------
 st.set_page_config(
     page_title="🐕🐈 Lost Pet Reunion Predictor v6",
     page_icon="🐕🐈",
     layout="centered"
 )
 
-# -------------------------
-# Load local .env if present
-# -------------------------
 import os
 import traceback
 import sqlalchemy
@@ -25,9 +18,6 @@ try:
 except ModuleNotFoundError:
     st.warning("⚠️ python-dotenv not installed, skipping local .env load.")
 
-# -------------------------
-# Config & core imports
-# -------------------------
 from core.config import PAGE_TITLE, PAGE_ICON, LAYOUT, ADMIN_PASSWORD, DB_URL, BARANGAYS
 from core.controllers.app_controller import AppController
 from core.views.app_view import AppView
@@ -39,9 +29,6 @@ from core.models.lost_pet_model import (
 )
 from pathlib import Path
 
-# -------------------------
-# App Header
-# -------------------------
 st.title("🐕🐈 Lost Pet Reunion Predictor — Pila, Laguna v6 🐇🐦🐢")
 st.markdown("""
 **Works for ANY pet: dogs, cats, rabbits, birds, hamsters, etc.!**  
@@ -49,9 +36,6 @@ Biggest factor: **Posting on Facebook = much higher chance!**
 Pila has ~57,776 people across 17 barangays — community power! 🐾
 """)
 
-# -------------------------
-# Startup Checks
-# -------------------------
 startup_errors = []
 
 try:
@@ -84,14 +68,8 @@ if startup_errors:
         st.error(err)
     st.stop()
 
-# -------------------------
-# Sidebar Role Selection
-# -------------------------
 role = st.sidebar.selectbox("Select Role", ["Guest", "Admin"])
 
-# -------------------------
-# Guest View with Tabs
-# -------------------------
 if role == "Guest":
     try:
         controller = AppController()
@@ -144,7 +122,6 @@ if role == "Guest":
                                 if scores:
                                     st.success(f"Found {len(scores)} potential matches (only pets with photos)!")
 
-                                    # Debug: show raw scores
                                     with st.expander("Debug: Raw Similarity Scores"):
                                         st.write([f"{s:.1%}" for s in scores])
 
@@ -155,7 +132,6 @@ if role == "Guest":
                                             if lost_id == -1:
                                                 continue
 
-                                            # INNER JOIN + ALL images for the matched pet
                                             query = text("""
                                                 SELECT 
                                                     lp.pet_type, lp.age_years, lp.days_missing, lp.barangay,
@@ -168,13 +144,11 @@ if role == "Guest":
                                             rows = session.execute(query).fetchall()
 
                                             if rows:
-                                                # Basic info from first row
                                                 pet_type = rows[0][0] or 'Unknown'
                                                 age = rows[0][1] or 'Unknown'
                                                 days_missing = rows[0][2]
                                                 barangay = rows[0][3]
 
-                                                # Show header with perfect match highlight
                                                 if score >= 0.98:
                                                     st.success(f"**Perfect Match {i} ({score:.1%})** - This is likely the same pet!")
                                                 elif score > 0.80:
@@ -189,7 +163,6 @@ if role == "Guest":
                                                 st.write(f"**Missing for:** {days_missing} days")
                                                 st.write(f"**Barangay:** {barangay}")
 
-                                                # Show all photos for this matched lost pet
                                                 st.markdown("**Similar Photos:**")
                                                 if rows:
                                                     photo_cols = st.columns(min(4, len(rows)))
@@ -220,9 +193,6 @@ if role == "Guest":
         st.error(f"❌ Failed to load Guest view: {type(e).__name__}: {e}")
         st.text(traceback.format_exc())
 
-# -------------------------
-# Admin View
-# -------------------------
 else:
     st.sidebar.markdown("### 🔐 Admin Login")
     password_input = st.sidebar.text_input("Enter admin password", type="password")

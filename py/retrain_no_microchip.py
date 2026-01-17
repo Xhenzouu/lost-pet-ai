@@ -31,7 +31,6 @@ data = {
 
 df = pd.DataFrame(data)
 
-# Realistic patterns (no chip boost)
 df.loc[df['days_missing'] < 7, 'found'] = 1
 df.loc[df['days_missing'] > 30, 'found'] = 0
 purebred_mask = df['pet_type'].str.contains('Purebred')
@@ -39,7 +38,6 @@ df.loc[purebred_mask, 'found'] = np.random.choice([1, 0], size=purebred_mask.sum
 
 df.to_csv('lost_pets_pila_dataset.csv', index=False)
 
-# Preprocess
 le_pet = LabelEncoder()
 le_barangay = LabelEncoder()
 
@@ -53,15 +51,12 @@ y = df['found']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-# Train
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
-# Evaluate
 y_pred = model.predict(X_test)
 print(f"New Model Accuracy: {accuracy_score(y_test, y_pred):.2%}")
 
-# Save new model/encoders (overwrites old ones)
 joblib.dump(model, 'lost_pet_model.pkl')
 joblib.dump(le_pet, 'le_pet.pkl')
 joblib.dump(le_barangay, 'le_barangay.pkl')
