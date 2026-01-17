@@ -5,7 +5,7 @@ import streamlit as st
 # Page Config (must be first Streamlit call)
 # -------------------------
 st.set_page_config(
-    page_title="🐕🐈 Lost Pet Reunion Predictor v5",
+    page_title="🐕🐈 Lost Pet Reunion Predictor v6",
     page_icon="🐕🐈",
     layout="centered"
 )
@@ -17,6 +17,7 @@ import os
 import traceback
 import sqlalchemy
 import cloudinary
+from sqlalchemy import text
 
 try:
     from dotenv import load_dotenv
@@ -25,19 +26,23 @@ except ModuleNotFoundError:
     st.warning("⚠️ python-dotenv not installed, skipping local .env load.")
 
 # -------------------------
-# Config imports
+# Config & core imports
 # -------------------------
-from core.config import PAGE_TITLE, PAGE_ICON, LAYOUT, ADMIN_PASSWORD, DB_URL
+from core.config import PAGE_TITLE, PAGE_ICON, LAYOUT, ADMIN_PASSWORD, DB_URL, BARANGAYS
 from core.controllers.app_controller import AppController
 from core.views.app_view import AppView
 from core.views.dashboard_view import DashboardView
-from core.db.db import engine
+from core.db.db import engine, SessionLocal
+from core.models.lost_pet_model import (
+    LostPetModel,
+    compute_embedding_from_upload
+)
 from pathlib import Path
 
 # -------------------------
 # App Header
 # -------------------------
-st.title("🐕🐈 Lost Pet Reunion Predictor — Pila, Laguna v5 🐇🐦🐢")
+st.title("🐕🐈 Lost Pet Reunion Predictor — Pila, Laguna v6 🐇🐦🐢")
 st.markdown("""
 **Works for ANY pet: dogs, cats, rabbits, birds, hamsters, etc.!**  
 Biggest factor: **Posting on Facebook = much higher chance!**  
@@ -49,7 +54,6 @@ Pila has ~57,776 people across 17 barangays — community power! 🐾
 # -------------------------
 startup_errors = []
 
-# Database check
 try:
     if not DB_URL or not engine:
         startup_errors.append("⚠️ Database not configured. DB_URL missing or engine not initialized.")
@@ -59,7 +63,6 @@ try:
 except Exception as e:
     startup_errors.append(f"⚠️ Database connection failed: {e}")
 
-# Cloudinary check
 try:
     cfg = cloudinary.config()
     if not all([cfg.cloud_name, cfg.api_key, cfg.api_secret]):
@@ -67,7 +70,6 @@ try:
 except Exception as e:
     startup_errors.append(f"⚠️ Cloudinary not configured properly: {e}")
 
-# Model files check
 def model_exists() -> bool:
     root = Path(__file__).resolve().parent / "pkl"
     return (root / "lost_pet_model_v5.pkl").exists() and (root / "le_barangay.pkl").exists()
@@ -77,7 +79,6 @@ if not model_exists():
         "⚠️ Model files missing in `/pkl`:\n- lost_pet_model_v5.pkl\n- le_barangay.pkl"
     )
 
-# Show startup errors
 if startup_errors:
     for err in startup_errors:
         st.error(err)
@@ -89,13 +90,132 @@ if startup_errors:
 role = st.sidebar.selectbox("Select Role", ["Guest", "Admin"])
 
 # -------------------------
-# Guest View
+# Guest View with Tabs
 # -------------------------
 if role == "Guest":
     try:
         controller = AppController()
-        view = AppView(controller)
-        view.render()
+
+        tab_lost, tab_found = st.tabs(["🐕 Report Lost Pet", "🐾 Report Found Pet"])
+
+        with tab_lost:
+            view = AppView(controller)
+            view.render()
+
+        with tab_found:
+            st.header("🐾 Report a Found Pet")
+            st.markdown("""
+            Help reunite a pet in Pila!  
+            Upload clear photos (face or body preferred) of a pet you found.  
+            We'll check against recent lost reports (only pets with photos shown).
+            """)
+
+            found_barangay = st.selectbox(
+                "Barangay where the pet was found (optional)",
+                [""] + BARANGAYS
+            )
+
+            found_photos = st.file_uploader(
+                "Upload found pet photos (1–5)",
+                type=["jpg", "jpeg", "png"],
+                accept_multiple_files=True,
+                key="found_uploader"
+            )
+
+            if st.button("Search for Matches", type="primary"):
+                if not found_photos:
+                    st.warning("Please upload at least one photo to search.")
+                else:
+                    with st.spinner("Processing photos and searching for matches..."):
+                        embeddings = []
+                        for photo in found_photos:
+                            emb = compute_embedding_from_upload(photo)
+                            if emb:
+                                embeddings.append(emb)
+
+                        if not embeddings:
+                            st.error("Couldn't process any photos. Try clearer images or different angles.")
+                        else:
+                            query_emb = embeddings[0]
+                            try:
+                                LostPetModel._load_faiss_index()
+                                scores, indices = LostPetModel.compute_similarity(query_emb, k=5)
+
+                                if scores:
+                                    st.success(f"Found {len(scores)} potential matches (only pets with photos)!")
+
+                                    # Debug: show raw scores
+                                    with st.expander("Debug: Raw Similarity Scores"):
+                                        st.write([f"{s:.1%}" for s in scores])
+
+                                    session = SessionLocal()
+                                    try:
+                                        shown_count = 0
+                                        for i, (score, lost_id) in enumerate(zip(scores, indices), 1):
+                                            if lost_id == -1:
+                                                continue
+
+                                            # INNER JOIN + ALL images for the matched pet
+                                            query = text("""
+                                                SELECT 
+                                                    lp.pet_type, lp.age_years, lp.days_missing, lp.barangay,
+                                                    pi.image_path
+                                                FROM lost_pets lp
+                                                INNER JOIN pet_images pi ON pi.lost_pet_id = lp.id
+                                                WHERE lp.id = :lost_id
+                                            """).bindparams(lost_id=lost_id)
+
+                                            rows = session.execute(query).fetchall()
+
+                                            if rows:
+                                                # Basic info from first row
+                                                pet_type = rows[0][0] or 'Unknown'
+                                                age = rows[0][1] or 'Unknown'
+                                                days_missing = rows[0][2]
+                                                barangay = rows[0][3]
+
+                                                # Show header with perfect match highlight
+                                                if score >= 0.98:
+                                                    st.success(f"**Perfect Match {i} ({score:.1%})** - This is likely the same pet!")
+                                                elif score > 0.80:
+                                                    st.markdown(f"**Strong Match {i} ({score:.1%})**")
+                                                elif score > 0.70:
+                                                    st.markdown(f"**Possible Match {i} ({score:.1%})**")
+                                                else:
+                                                    st.markdown(f"Match {i} ({score:.1%})")
+
+                                                st.write(f"**Pet Type:** {pet_type}")
+                                                st.write(f"**Age:** {age} years")
+                                                st.write(f"**Missing for:** {days_missing} days")
+                                                st.write(f"**Barangay:** {barangay}")
+
+                                                # Show all photos for this matched lost pet
+                                                st.markdown("**Similar Photos:**")
+                                                if rows:
+                                                    photo_cols = st.columns(min(4, len(rows)))
+                                                    for j, row in enumerate(rows):
+                                                        img_url = row[4]
+                                                        if img_url:
+                                                            photo_cols[j % 4].image(img_url, width=150)
+                                                else:
+                                                    st.write("No photos available (shouldn't happen)")
+
+                                                st.markdown("---")
+                                                shown_count += 1
+
+                                        if shown_count == 0:
+                                            st.info("No matches displayed (temporarily showing all for testing). Try a clearer photo!")
+
+                                    finally:
+                                        session.close()
+
+                                else:
+                                    st.info("No close matches found yet (only pets with photos are considered). Thank you for helping!")
+
+                            except Exception as faiss_err:
+                                st.error(f"Search failed: {str(faiss_err)}")
+                                print(f"FAISS error: {faiss_err}")
+
     except Exception as e:
         st.error(f"❌ Failed to load Guest view: {type(e).__name__}: {e}")
         st.text(traceback.format_exc())

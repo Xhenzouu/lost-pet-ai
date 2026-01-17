@@ -232,3 +232,36 @@ class LostPetModel:
 
         valid_mask = indices[0] != -1
         return scores[0][valid_mask].tolist(), indices[0][valid_mask].tolist()
+
+
+# ────────────────────────────────────────────────────────────────
+# Helper for Found Pet feature (used in app.py / controller)
+# ────────────────────────────────────────────────────────────────
+
+def compute_embedding_from_upload(uploaded_file) -> Optional[List[float]]:
+    """
+    Compute DINOv2 embedding from a Streamlit UploadedFile object.
+    Reuses the existing YOLO detection + DINOv2 pipeline.
+    Returns embedding list or None on failure.
+    """
+    try:
+        # Read bytes (Streamlit UploadedFile)
+        file_bytes = uploaded_file.read()
+        uploaded_file.seek(0)  # Reset pointer for safety
+
+        cropped = detect_and_crop_pet(file_bytes)
+        if cropped is None:
+            logger.info("No pet detected in uploaded file → fallback to full image")
+            cropped = Image.open(io.BytesIO(file_bytes)).convert("RGB")
+
+        embedding = compute_dinov2_embedding(cropped)
+
+        if embedding is None or len(embedding) != EMBEDDING_DIM:
+            logger.warning(f"Invalid embedding from upload (len={len(embedding) if embedding else 'None'})")
+            return None
+
+        return embedding
+
+    except Exception as e:
+        logger.warning(f"Embedding from upload failed: {str(e)}")
+        return None
